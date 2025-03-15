@@ -82,7 +82,7 @@ public class UserDAO {
                 User user = new User();
                 user.setId(rs.getInt("id"));
                 user.setNom(rs.getString("name"));
-                user.setPassword(rs.getString("password"));  // Set password
+                user.setMotDePasse(rs.getString("password"));  // Set password
                 user.setRole(rs.getString("role"));
                 users.add(user);
             }
@@ -100,7 +100,7 @@ public class UserDAO {
         try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
              PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setString(1, user.getNom());
-            stmt.setString(2, user.getPassword());
+            stmt.setString(2, user.getMotDePasse());
             stmt.setDate(3, Date.valueOf(user.getDateNaissance()));
             stmt.setString(4, user.getSportPratique());
 
