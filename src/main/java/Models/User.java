@@ -15,7 +15,6 @@ public class User {
         this.motDePasse = motDePasse;
     }
 
-    // Getters & Setters
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
 
@@ -27,5 +26,6 @@ public class User {
 
     public String getMotDePasse() { return motDePasse; }
     public void setMotDePasse(String motDePasse) { this.motDePasse = motDePasse; }
+
 }
 

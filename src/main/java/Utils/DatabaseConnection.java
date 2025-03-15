@@ -10,7 +10,7 @@ public class DatabaseConnection {
         if (connection == null) {
             try {
                 Class.forName("com.mysql.cj.jdbc.Driver");
-                connection = DriverManager.getConnection("jdbc:mysql://localhost:3305/sportflow", "root", "admin");
+                connection = DriverManager.getConnection("jdbc:mysql://localhost:3305/Construction", "root", "admin");
                 System.out.println("Database Connected Successfully!");
             } catch (Exception e) {
                 System.out.println("Database Connection Failed!");
