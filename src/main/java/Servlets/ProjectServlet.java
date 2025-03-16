@@ -137,5 +137,36 @@ public class ProjectServlet extends HttpServlet {
         }
     }
 
+    // Delete Project (DELETE)
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        int projectId = Integer.parseInt(request.getParameter("id"));
 
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+
+        try {
+            conn = DatabaseConnection.getConnection();
+            String sql = "DELETE FROM Projet WHERE id = ?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, projectId);
+
+            int rowsDeleted = pstmt.executeUpdate();
+            if (rowsDeleted > 0) {
+                System.out.println("Project deleted successfully!");
+            }
+
+            response.sendRedirect("projects.jsp");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (pstmt != null) pstmt.close();
+                if (conn != null) conn.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }
