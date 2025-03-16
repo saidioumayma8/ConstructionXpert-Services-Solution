@@ -94,5 +94,48 @@ public class ProjectServlet extends HttpServlet {
         }
     }
 
+    // Edit Project (PUT)
+    protected void doPut(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        int projectId = Integer.parseInt(request.getParameter("id"));
+        String name = request.getParameter("name");
+        String description = request.getParameter("description");
+        String startDate = request.getParameter("startDate");
+        String endDate = request.getParameter("endDate");
+        double budget = Double.parseDouble(request.getParameter("budget"));
+
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+
+        try {
+            conn = DatabaseConnection.getConnection();
+            String sql = "UPDATE Projet SET nom = ?, description = ?, date_debut = ?, date_fin = ?, budget = ? WHERE id = ?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, name);
+            pstmt.setString(2, description);
+            pstmt.setString(3, startDate);
+            pstmt.setString(4, endDate);
+            pstmt.setDouble(5, budget);
+            pstmt.setInt(6, projectId);
+
+            int rowsUpdated = pstmt.executeUpdate();
+            if (rowsUpdated > 0) {
+                System.out.println("Project updated successfully!");
+            }
+
+            response.sendRedirect("projects.jsp");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (pstmt != null) pstmt.close();
+                if (conn != null) conn.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 
 }
