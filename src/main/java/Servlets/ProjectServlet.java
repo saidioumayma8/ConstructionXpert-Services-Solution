@@ -52,4 +52,47 @@ public class ProjectServlet extends HttpServlet {
         }
     }
 
+
+    // Add New Project (POST)
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String name = request.getParameter("name");
+        String description = request.getParameter("description");
+        String startDate = request.getParameter("startDate");
+        String endDate = request.getParameter("endDate");
+        double budget = Double.parseDouble(request.getParameter("budget"));
+
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+
+        try {
+            conn = DatabaseConnection.getConnection();
+            String sql = "INSERT INTO Projet (nom, description, date_debut, date_fin, budget) VALUES (?, ?, ?, ?, ?)";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, name);
+            pstmt.setString(2, description);
+            pstmt.setString(3, startDate);
+            pstmt.setString(4, endDate);
+            pstmt.setDouble(5, budget);
+
+            int rowsInserted = pstmt.executeUpdate();
+            if (rowsInserted > 0) {
+                System.out.println("New project added successfully!");
+            }
+
+            response.sendRedirect("projects.jsp");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (pstmt != null) pstmt.close();
+                if (conn != null) conn.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
 }
