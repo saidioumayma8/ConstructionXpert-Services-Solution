@@ -61,7 +61,7 @@
         <div class="mt-6">
             <h2 class="text-xl font-bold">Quick Actions</h2>
             <div class="mt-3 space-x-3">
-                <button><a href="AddProject.jsp">Add Project</a></button>
+                <button><a href="Projects/addProject.jsp">Add Project</a></button>
                 <button><a href="AddTask.jsp">Add Task</a></button>
                 <button><a href="GenerateReport.jsp">Generate Report</a></button>
             </div>
