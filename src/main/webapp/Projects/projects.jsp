@@ -2,11 +2,12 @@
 <%@ page import="Utils.DatabaseConnection" %>  <%-- Import the DBConnection class --%>
 
 <%
-    Connection conn = DatabaseConnection.getConnection();
+    Connection conn = null;
     Statement stmt = null;
     ResultSet rs = null;
 
     try {
+        conn = DatabaseConnection.getConnection();
         stmt = conn.createStatement();
         rs = stmt.executeQuery("SELECT * FROM Projet");
 %>
@@ -55,7 +56,12 @@
 </html>
 
 <%
-    if (rs != null) rs.close();
-    if (stmt != null) stmt.close();
-    if (conn != null) conn.close();
+    } catch (SQLException e) {
+        e.printStackTrace();
+    } finally {
+        // Close resources in finally block to ensure they are closed even if an exception occurs
+        if (rs != null) try { rs.close(); } catch (SQLException e) { e.printStackTrace(); }
+        if (stmt != null) try { stmt.close(); } catch (SQLException e) { e.printStackTrace(); }
+        if (conn != null) try { conn.close(); } catch (SQLException e) { e.printStackTrace(); }
+    }
 %>

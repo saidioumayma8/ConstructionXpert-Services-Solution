@@ -25,7 +25,7 @@
             <h2 class="text-xl font-bold text-gray-200 dark:text-gray-200">Admin Panel</h2>
         </div>
         <nav class="mt-4">
-            <a href="Projects.jsp" class="sidebar-link">Projects</a>
+            <a href="./projects.jsp" class="sidebar-link">Projects</a>
             <a href="Tasks.jsp" class="sidebar-link">Tasks</a>
             <a href="Users.jsp" class="sidebar-link">Users</a>
             <a href="Reports.jsp" class="sidebar-link">Reports</a>
@@ -40,34 +40,35 @@
 
         <h1 class="text-3xl font-bold text-gray-900 dark:text-white animate-fade-in">Add New Project</h1>
 
-        <form action="ProjectServlet" method="post" class="bg-gray-800 dark:bg-gray-800 p-6 shadow-lg rounded-lg mt-6">
+        <form action="ProjectServlet" method="post" class="bg-gray-800 p-6 shadow-lg rounded-lg mt-6">
             <div class="mb-4">
                 <label class="block text-gray-200 font-semibold">Project Name</label>
-                <input type="text" name="name" class="w-full px-4 py-2 border rounded-lg bg-gray-700 dark:bg-gray-700 text-gray-100" required>
+                <input type="text" name="name" class="w-full px-4 py-2 border rounded-lg bg-gray-700 text-gray-100" required>
             </div>
 
             <div class="mb-4">
                 <label class="block text-gray-200 font-semibold">Description</label>
-                <textarea name="description" class="w-full px-4 py-2 border rounded-lg bg-gray-700 dark:bg-gray-700 text-gray-100" required></textarea>
+                <textarea name="description" class="w-full px-4 py-2 border rounded-lg bg-gray-700 text-gray-100" required></textarea>
             </div>
 
             <div class="mb-4">
                 <label class="block text-gray-200 font-semibold">Start Date</label>
-                <input type="date" name="startDate" class="w-full px-4 py-2 border rounded-lg bg-gray-700 dark:bg-gray-700 text-gray-100" required>
+                <input type="date" name="startDate" class="w-full px-4 py-2 border rounded-lg bg-gray-700 text-gray-100" required>
             </div>
 
             <div class="mb-4">
                 <label class="block text-gray-200 font-semibold">End Date</label>
-                <input type="date" name="endDate" class="w-full px-4 py-2 border rounded-lg bg-gray-700 dark:bg-gray-700 text-gray-100" required>
+                <input type="date" name="endDate" class="w-full px-4 py-2 border rounded-lg bg-gray-700 text-gray-100" required>
             </div>
 
             <div class="mb-4">
                 <label class="block text-gray-200 font-semibold">Budget ($)</label>
-                <input type="number" name="budget" class="w-full px-4 py-2 border rounded-lg bg-gray-700 dark:bg-gray-700 text-gray-100" step="0.01" required>
+                <input type="number" name="budget" class="w-full px-4 py-2 border rounded-lg bg-gray-700 text-gray-100" step="0.01" required>
             </div>
 
             <button type="submit" class="bg-orange-500 text-white px-6 py-2 rounded-lg">Add Project</button>
         </form>
+
     </main>
 </div>
 

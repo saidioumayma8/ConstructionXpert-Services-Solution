@@ -1,6 +1,8 @@
 package Models;
 
-public class Projet {
+import java.sql.Date;
+
+public class Project {
     private int id;
     private String nom;
     private String description;
@@ -8,9 +10,9 @@ public class Projet {
     private String dateFin;
     private double budget;
 
-    public Projet() {}
+    public Project() {}
 
-    public Projet(int id, String nom, String description, String dateDebut, String dateFin, double budget) {
+    public Project(int id, String nom, String description, String dateDebut, String dateFin, double budget) {
         this.id = id;
         this.nom = nom;
         this.description = description;
@@ -18,6 +20,10 @@ public class Projet {
         this.dateFin = dateFin;
         this.budget = budget;
     }
+
+    public Project(String nom, String description, String dateDebut, String dateFin, double budget) {
+    }
+
 
     // Getters & Setters
     public int getId() { return id; }
@@ -29,10 +35,10 @@ public class Projet {
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }
 
-    public String getDateDebut() { return dateDebut; }
+    public Date getDateDebut() { return dateDebut; }
     public void setDateDebut(String dateDebut) { this.dateDebut = dateDebut; }
 
-    public String getDateFin() { return dateFin; }
+    public int getDateFin() { return dateFin; }
     public void setDateFin(String dateFin) { this.dateFin = dateFin; }
 
     public double getBudget() { return budget; }
