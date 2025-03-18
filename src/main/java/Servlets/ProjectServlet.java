@@ -2,6 +2,7 @@ package Servlets;
 
 import Utils.DatabaseConnection;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -11,6 +12,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+@WebServlet("/Projects/ProjectServlet")
 public class ProjectServlet extends HttpServlet {
 
     // Retrieve Project Details (GET)
