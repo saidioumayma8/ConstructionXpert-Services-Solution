@@ -6,13 +6,11 @@ public class Project {
     private int id;
     private String nom;
     private String description;
-    private String dateDebut;
-    private String dateFin;
+    private Date dateDebut;
+    private Date dateFin;
     private double budget;
 
-    public Project() {}
-
-    public Project(int id, String nom, String description, String dateDebut, String dateFin, double budget) {
+    public Project(int id, String nom, String description, Date dateDebut, Date dateFin, double budget) {
         this.id = id;
         this.nom = nom;
         this.description = description;
@@ -21,27 +19,55 @@ public class Project {
         this.budget = budget;
     }
 
-    public Project(String nom, String description, String dateDebut, String dateFin, double budget) {
+    public Project(String nom, String description, java.util.Date dateDebut, java.util.Date dateFin, Double budget) {
     }
 
+    public int getId() {
+        return id;
+    }
 
-    // Getters & Setters
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
+    public void setId(int id) {
+        this.id = id;
+    }
 
-    public String getNom() { return nom; }
-    public void setNom(String nom) { this.nom = nom; }
+    public String getNom() {
+        return nom;
+    }
 
-    public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
 
-    public Date getDateDebut() { return dateDebut; }
-    public void setDateDebut(String dateDebut) { this.dateDebut = dateDebut; }
+    public String getDescription() {
+        return description;
+    }
 
-    public int getDateFin() { return dateFin; }
-    public void setDateFin(String dateFin) { this.dateFin = dateFin; }
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-    public double getBudget() { return budget; }
-    public void setBudget(double budget) { this.budget = budget; }
+    public Date getDateDebut() {
+        return dateDebut;
+    }
+
+    public void setDateDebut(Date dateDebut) {
+        this.dateDebut = dateDebut;
+    }
+
+    public Date getDateFin() {
+        return dateFin;
+    }
+
+    public void setDateFin(Date dateFin) {
+        this.dateFin = dateFin;
+    }
+
+    public double getBudget() {
+        return budget;
+    }
+
+    public void setBudget(double budget) {
+        this.budget = budget;
+    }
 }
 

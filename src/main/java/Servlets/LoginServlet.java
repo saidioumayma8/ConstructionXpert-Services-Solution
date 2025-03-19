@@ -17,7 +17,7 @@ public class LoginServlet extends HttpServlet {
         String email = request.getParameter("email"); // Changed to email
         String motDePasse = request.getParameter("motDePasse");
 
-        // Use the existing Login method to verify credentials
+        // the existing Login method to verify credentials
         int id = UserDAO.Login(email, motDePasse);
 
         if (id != 0) { // User found
