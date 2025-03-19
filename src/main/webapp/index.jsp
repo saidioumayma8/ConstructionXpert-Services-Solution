@@ -1,11 +1,3 @@
-<%@ page import="jakarta.servlet.http.*, jakarta.servlet.*" %>
-<%
-    HttpSession sessionObj = request.getSession(false);
-    if (sessionObj == null || sessionObj.getAttribute("user") == null) {
-        response.sendRedirect("index.jsp?error=notloggedin");
-        return;
-    }
-%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -25,12 +17,11 @@
             <h2 class="text-xl font-bold text-gray-800 dark:text-gray-200">Admin Panel</h2>
         </div>
         <nav class="mt-4">
-            <a href="Projects.jsp" class="sidebar-link">Projects</a>
+            <a href="projects.jsp" class="sidebar-link">Projects</a>
             <a href="Tasks.jsp" class="sidebar-link">Tasks</a>
             <a href="Users.jsp" class="sidebar-link">Users</a>
             <a href="Reports.jsp" class="sidebar-link">Reports</a>
             <a href="Settings.jsp" class="sidebar-link">Settings</a>
-            <a href="LogoutServlet" class="sidebar-link text-red-600">Logout</a>
         </nav>
     </aside>
 
@@ -38,7 +29,7 @@
     <main class="flex-1 p-8">
         <button id="toggleSidebar" class=" px-4 py-2 rounded mb-4">Toggle Sidebar</button>
 
-        <h1 class="text-3xl font-bold text-gray-900 dark:text-white animate-fade-in">Welcome, <%= sessionObj.getAttribute("user") %>!</h1>
+        <h1 class="text-3xl font-bold text-gray-900 dark:text-white animate-fade-in">Welcome, Admin</h1>
         <p class="text-gray-600 dark:text-gray-300 mt-2">Here’s an overview of your projects and tasks.</p>
 
         <!-- Animated Statistics -->
@@ -61,7 +52,7 @@
         <div class="mt-6">
             <h2 class="text-xl font-bold dark:text-gray-200">Quick Actions</h2>
             <div class="mt-3 space-x-3">
-                <button><a href="Projects/addProject.jsp">Add Project</a></button>
+                <button><a href="./Projects/addProject.jsp">Add Project</a></button>
                 <button><a href="AddTask.jsp">Add Task</a></button>
                 <button><a href="GenerateReport.jsp">Generate Report</a></button>
             </div>
@@ -142,20 +133,10 @@
 <!-- JavaScript for Animations and Dark Mode Toggle -->
 <script>
     window.onload = function () {
-        // Sidebar Toggle
         document.getElementById("toggleSidebar").addEventListener("click", function () {
             document.getElementById("sidebar").classList.toggle("-translate-x-64");
         });
 
-        // GSAP Animations for Cards
-        gsap.from(".stats-card", {
-            opacity: 0,
-            scale: 0.8,
-            stagger: 0.2,
-            duration: 1
-        });
-
-        // Animated Number Counters
         function animateCounter(elementId, target) {
             let counter = { value: 0 };
             gsap.to(counter, {
@@ -174,11 +155,6 @@
         animateCounter("projectsCount", 5);
         animateCounter("tasksCount", 20);
         animateCounter("usersCount", 15);
-    };
-
-    // Toggle Dark Mode
-    const toggleDarkMode = () => {
-        document.body.classList.toggle('dark');
     };
 </script>
 

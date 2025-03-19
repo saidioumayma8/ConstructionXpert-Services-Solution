@@ -2,7 +2,6 @@ package DAO;
 
 import Models.Project;
 import Utils.DatabaseConnection;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +12,7 @@ public class ProjectDAO {
     }
 
     public void addProject(Project projet) {
-        String query = "INSERT INTO projet (nom, description, Date_de_Début, Date_de_Fin, Budget) VALUES (?, ?, ?, ?, ?)";
+        String query = "INSERT INTO projet (nom, description, date_debut, date_fin, Budget) VALUES (?, ?, ?, ?, ?)";
         try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
@@ -27,6 +26,7 @@ public class ProjectDAO {
             System.out.println("Projet ajouté avec succès.");
         } catch (SQLException e) {
             e.printStackTrace();
+            // You can add more detailed error handling and logging here
         }
     }
 
@@ -42,11 +42,11 @@ public class ProjectDAO {
             if (resultSet.next()) {
                 projet = new Project(
                         resultSet.getInt("id_projet"),
-                        resultSet.getString("nom"),
-                        resultSet.getString("description"),  // Removed extra space
-                        resultSet.getDate("Date_de_Début"),
-                        resultSet.getDate("Date_de_Fin"),
-                        resultSet.getDouble("Budget")
+                        resultSet.getString("nom"),  // Ensure column name matches your database schema
+                        resultSet.getString("description"),
+                        resultSet.getDate("date_debut"),
+                        resultSet.getDate("date_fin"),
+                        resultSet.getDouble("budget")
                 );
             }
         } catch (SQLException e) {
@@ -66,11 +66,11 @@ public class ProjectDAO {
             while (resultSet.next()) {
                 Project projet = new Project(
                         resultSet.getInt("id_projet"),
-                        resultSet.getString("nom"),
+                        resultSet.getString("nom"),  // Column name should match database
                         resultSet.getString("description"),
-                        resultSet.getDate("Date_de_Début"),
-                        resultSet.getDate("Date_de_Fin"),
-                        resultSet.getDouble("Budget")
+                        resultSet.getDate("date_debut"),
+                        resultSet.getDate("date_fin"),
+                        resultSet.getDouble("budget")
                 );
                 projets.add(projet);
             }
@@ -82,9 +82,8 @@ public class ProjectDAO {
         return projets;
     }
 
-
-    public boolean updateProjet(Project projet,int id) {
-        String query = "UPDATE projet SET nom=?, description=?, Date_de_Début=?, Date_de_Fin=?, Budget=? WHERE id_projet=?";
+    public boolean updateProjet(Project projet, int id) {
+        String query = "UPDATE projet SET nom=?, description=?, date_debut=?, date_fin=?, budget=? WHERE id_projet=?";
         boolean result = false;
         try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -99,12 +98,12 @@ public class ProjectDAO {
             preparedStatement.executeUpdate();
             result = true;
 
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return result;
     }
+
     public boolean deleteProjet(int id) {
         String query = "DELETE FROM projet WHERE id_projet = ?";
         try (Connection connection = DatabaseConnection.getConnection();
@@ -117,5 +116,6 @@ public class ProjectDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return false;}
+        return false;
+    }
 }
