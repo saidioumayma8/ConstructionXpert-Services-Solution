@@ -1,27 +1,31 @@
 package Models;
 
-import java.sql.Date;
+import java.util.Date;
 
 public class Project {
     private int id;
     private String nom;
     private String description;
-    private Date dateDebut;
-    private Date dateFin;
-    private double budget;
+    private java.sql.Date dateDebut;
+    private java.sql.Date dateFin;
+    private Double budget;
 
-    public Project(int id, String nom, String description, Date dateDebut, Date dateFin, double budget) {
-        this.id = id;
+    // Constructor
+    public Project(int id, String nom, String description, Date dateDebut, Date dateFin, Double budget) {
         this.nom = nom;
         this.description = description;
-        this.dateDebut = dateDebut;
-        this.dateFin = dateFin;
+        this.dateDebut = (java.sql.Date) dateDebut;
+        this.dateFin = (java.sql.Date) dateFin;
         this.budget = budget;
     }
 
-    public Project(String nom, String description, java.util.Date dateDebut, java.util.Date dateFin, Double budget) {
+    public Project(int id, String nom, String description, long dateDebut, long dateFin, double budget) {
     }
 
+    public Project(String nom, String description, Date dateDebut, Date dateFin, double budget) {
+    }
+
+    // Getters and Setters
     public int getId() {
         return id;
     }
@@ -46,28 +50,27 @@ public class Project {
         this.description = description;
     }
 
-    public Date getDateDebut() {
+    public java.sql.Date getDateDebut() {
         return dateDebut;
     }
 
     public void setDateDebut(Date dateDebut) {
-        this.dateDebut = dateDebut;
+        this.dateDebut = (java.sql.Date) dateDebut;
     }
 
-    public Date getDateFin() {
+    public java.sql.Date getDateFin() {
         return dateFin;
     }
 
     public void setDateFin(Date dateFin) {
-        this.dateFin = dateFin;
+        this.dateFin = (java.sql.Date) dateFin;
     }
 
-    public double getBudget() {
+    public Double getBudget() {
         return budget;
     }
 
-    public void setBudget(double budget) {
+    public void setBudget(Double budget) {
         this.budget = budget;
     }
 }
-

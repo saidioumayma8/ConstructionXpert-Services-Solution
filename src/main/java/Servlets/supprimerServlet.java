@@ -29,7 +29,7 @@ public class supprimerServlet extends HttpServlet {
 
         try {
             int id = Integer.parseInt(idParam);
-            boolean deleted = projectDAO.deleteProjet(id);
+            boolean deleted = projectDAO.deleteProject(id);
 
             if (deleted) {
                 resp.sendRedirect("ProjectServlet?successMessage=Projet supprime avec succes");

@@ -2,25 +2,32 @@ package Utils;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class DatabaseConnection {
+
     public static Connection connection;
 
     public static Connection getConnection() {
         if (connection == null) {
             try {
+                // Load the MySQL driver
                 Class.forName("com.mysql.cj.jdbc.Driver");
-                connection = DriverManager.getConnection("jdbc:mysql://localhost:3305/Construction", "root", "admin");
-                System.out.println("Database Connected Successfully!");
-            } catch (Exception e) {
-                System.out.println("Database Connection Failed!");
+
+                // Establish the connection
+                connection = DriverManager.getConnection(
+                        "jdbc:mysql://localhost:3305/Construction", // Your database URL
+                        "root",  // Your username
+                        "admin"  // Your password
+                );
+
+                System.out.println("Database connection established.");
+            } catch (SQLException | ClassNotFoundException e) {
+                // Log any exceptions
+                System.err.println("Failed to establish database connection: " + e.getMessage());
                 e.printStackTrace();
             }
         }
         return connection;
-    }
-
-    public static void main(String[] args) {
-        getConnection(); // Just call this to test connection
     }
 }

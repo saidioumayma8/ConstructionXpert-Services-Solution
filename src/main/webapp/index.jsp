@@ -30,7 +30,7 @@
         <button id="toggleSidebar" class=" px-4 py-2 rounded mb-4">Toggle Sidebar</button>
 
         <h1 class="text-3xl font-bold text-gray-900 dark:text-white animate-fade-in">Welcome, Admin</h1>
-        <p class="text-gray-600 dark:text-gray-300 mt-2">Here’s an overview of your projects and tasks.</p>
+        <p class="text-gray-600 dark:text-gray-300 mt-2">Heres an overview of your projects and tasks.</p>
 
         <!-- Animated Statistics -->
         <div class="grid grid-cols-3 gap-6 mt-6">

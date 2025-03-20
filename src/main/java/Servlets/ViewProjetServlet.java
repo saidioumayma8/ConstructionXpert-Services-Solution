@@ -1,4 +1,5 @@
 package Servlets;
+
 import DAO.ProjectDAO;
 import Models.Project;
 
@@ -11,8 +12,6 @@ import java.io.IOException;
 
 @WebServlet("/ViewProjetServlet")
 public class ViewProjetServlet extends HttpServlet {
-
-
 
     private ProjectDAO projectDAO;
 
@@ -32,7 +31,7 @@ public class ViewProjetServlet extends HttpServlet {
 
         try {
             int id = Integer.parseInt(idParam);
-            Project projet = projectDAO.getProjetById(id);
+            Project projet = projectDAO.getProjectById(id); // Call the method with the id passed
 
             if (projet != null) {
                 req.setAttribute("projet", projet);

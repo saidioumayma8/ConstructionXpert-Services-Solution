@@ -30,10 +30,10 @@
         <button id="toggleSidebar" class="px-4 py-2 rounded mb-4 text-gray-700 dark:text-white">Toggle Sidebar</button>
         <h1 class="text-3xl font-bold text-gray-900 dark:text-white animate-fade-in">Add New Project</h1>
 
-        <form action="/Construction/ADDPROJECT" method="post" class="bg-gray-800 p-6 shadow-lg rounded-lg mt-6">
+        <form action="/Construction/AddProjectServlet" method="post" class="bg-gray-800 p-6 shadow-lg rounded-lg mt-6">
             <div class="mb-4">
                 <label class="block text-gray-200 font-semibold">Project Name</label>
-                <input type="text" name="projectName" class="w-full px-4 py-2 border rounded-lg bg-gray-700 text-gray-100" required>
+                <input type="text" name="nom" class="w-full px-4 py-2 border rounded-lg bg-gray-700 text-gray-100" required>
             </div>
 
             <div class="mb-4">
@@ -43,12 +43,12 @@
 
             <div class="mb-4">
                 <label class="block text-gray-200 font-semibold">Start Date</label>
-                <input type="date" name="startDate" class="w-full px-4 py-2 border rounded-lg bg-gray-700 text-gray-100" required>
+                <input type="date" name="date_debut" class="w-full px-4 py-2 border rounded-lg bg-gray-700 text-gray-100" required>
             </div>
 
             <div class="mb-4">
                 <label class="block text-gray-200 font-semibold">End Date</label>
-                <input type="date" name="endDate" class="w-full px-4 py-2 border rounded-lg bg-gray-700 text-gray-100" required>
+                <input type="date" name="date_fin" class="w-full px-4 py-2 border rounded-lg bg-gray-700 text-gray-100" required>
             </div>
 
             <div class="mb-4">
@@ -58,6 +58,7 @@
 
             <button type="submit" class="bg-orange-500 text-white px-6 py-2 rounded-lg">Add Project</button>
         </form>
+
 
 
     </main>
