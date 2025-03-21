@@ -22,3 +22,11 @@
 0:0:0:0:0:0:0:1 - - [21/Mar/2025:00:46:08 +0000] "GET /Construction/Projects/projects.jsp HTTP/1.1" 200 525
 0:0:0:0:0:0:0:1 - - [21/Mar/2025:00:47:22 +0000] "GET /Construction/Projects/projects.jsp HTTP/1.1" 200 525
 0:0:0:0:0:0:0:1 - - [21/Mar/2025:10:01:09 +0000] "GET /Construction/ HTTP/1.1" 200 5275
+0:0:0:0:0:0:0:1 - - [21/Mar/2025:10:24:36 +0000] "GET /Construction/Projects/addProject.jsp HTTP/1.1" 200 4736
+0:0:0:0:0:0:0:1 - - [21/Mar/2025:10:45:59 +0000] "GET /Construction/Projects/addProject.jsp HTTP/1.1" 200 4723
+0:0:0:0:0:0:0:1 - - [21/Mar/2025:10:46:39 +0000] "GET /Construction/Projects/addProject.jsp HTTP/1.1" 200 4723
+0:0:0:0:0:0:0:1 - - [21/Mar/2025:10:47:18 +0000] "GET /Construction/taches/addTache.jsp HTTP/1.1" 200 4852
+0:0:0:0:0:0:0:1 - - [21/Mar/2025:10:57:39 +0000] "GET /Construction/taches/projects.jsp HTTP/1.1" 404 772
+0:0:0:0:0:0:0:1 - - [21/Mar/2025:10:57:48 +0000] "GET /Construction/taches/projects.jsp HTTP/1.1" 404 772
+0:0:0:0:0:0:0:1 - - [21/Mar/2025:10:58:49 +0000] "GET /Construction/ HTTP/1.1" 200 5275
+0:0:0:0:0:0:0:1 - - [21/Mar/2025:10:58:51 +0000] "GET /Construction/Projects/projects.jsp HTTP/1.1" 200 525
