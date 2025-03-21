@@ -1,28 +1,45 @@
 package Models;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class Project {
     private int id;
     private String nom;
     private String description;
-    private java.sql.Date dateDebut;
-    private java.sql.Date dateFin;
+    private Date dateDebut; // Use java.sql.Date
+    private Date dateFin;
     private Double budget;
 
-    // Constructor
-    public Project(int id, String nom, String description, Date dateDebut, Date dateFin, Double budget) {
+    // Constructor with Date parameters (convert util.Date to sql.Date)
+    public Project(int id, String nom, String description, java.util.Date dateDebut, java.util.Date dateFin, Double budget) {
+        this.id = id;
         this.nom = nom;
         this.description = description;
-        this.dateDebut = (java.sql.Date) dateDebut;
-        this.dateFin = (java.sql.Date) dateFin;
+        this.dateDebut = new Date(dateDebut.getTime()); // Convert util.Date to sql.Date
+        this.dateFin = new Date(dateFin.getTime());
         this.budget = budget;
     }
 
+    // Constructor with long timestamps
     public Project(int id, String nom, String description, long dateDebut, long dateFin, double budget) {
+        this.id = id;
+        this.nom = nom;
+        this.description = description;
+        this.dateDebut = new Date(dateDebut);
+        this.dateFin = new Date(dateFin);
+        this.budget = budget;
     }
 
-    public Project(String nom, String description, Date dateDebut, Date dateFin, double budget) {
+    // Constructor with Strings (if needed, convert String to java.sql.Date)
+    public Project(String nom, String description, String dateDebut, String dateFin, double budget) {
+        this.nom = nom;
+        this.description = description;
+        this.dateDebut = Date.valueOf(dateDebut); // Requires "yyyy-MM-dd" format
+        this.dateFin = Date.valueOf(dateFin);
+        this.budget = budget;
+    }
+
+    public Project() {
     }
 
     // Getters and Setters
@@ -50,20 +67,28 @@ public class Project {
         this.description = description;
     }
 
-    public java.sql.Date getDateDebut() {
+    public Date getDateDebut() {
         return dateDebut;
     }
 
-    public void setDateDebut(Date dateDebut) {
-        this.dateDebut = (java.sql.Date) dateDebut;
+    public void setDateDebut(java.util.Date dateDebut) {
+        this.dateDebut = new Date(dateDebut.getTime());
     }
 
-    public java.sql.Date getDateFin() {
+    public void setDateDebut(String dateDebut) {
+        this.dateDebut = Date.valueOf(dateDebut); // Requires "yyyy-MM-dd"
+    }
+
+    public Date getDateFin() {
         return dateFin;
     }
 
-    public void setDateFin(Date dateFin) {
-        this.dateFin = (java.sql.Date) dateFin;
+    public void setDateFin(java.util.Date dateFin) {
+        this.dateFin = new Date(dateFin.getTime());
+    }
+
+    public void setDateFin(String dateFin) {
+        this.dateFin = Date.valueOf(dateFin); // Requires "yyyy-MM-dd"
     }
 
     public Double getBudget() {

@@ -1,62 +1,48 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>Project List</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Projects</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.2/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body>
-<h1>All Projects</h1>
+<div class="container mx-auto mt-10">
+    <h1 class="text-3xl font-bold mb-5">All Projects</h1>
 
-<c:if test="${not empty successMessage}">
-    <p style="color: green">${successMessage}</p>
-</c:if>
-<c:if test="${not empty errorMessage}">
-    <p style="color: red">${errorMessage}</p>
-</c:if>
+    <!-- Display Projects -->
+    <c:if test="${not empty projects}">
+        <table class="min-w-full table-auto border-collapse border border-gray-200">
+            <thead>
+            <tr class="bg-gray-100">
+                <th class="px-4 py-2 text-left border border-gray-200">Project Name</th>
+                <th class="px-4 py-2 text-left border border-gray-200">Description</th>
+                <th class="px-4 py-2 text-left border border-gray-200">Start Date</th>
+                <th class="px-4 py-2 text-left border border-gray-200">End Date</th>
+                <th class="px-4 py-2 text-left border border-gray-200">Budget</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- Iterate over the projects list -->
+            <c:forEach var="project" items="${projects}">
+                <tr class="border-t border-gray-200">
+                    <td class="px-4 py-2">${project.nom}</td>
+                    <td class="px-4 py-2">${project.description}</td>
+                    <td class="px-4 py-2">${project.dateDebut}</td>
+                    <td class="px-4 py-2">${project.dateFin}</td>
+                    <td class="px-4 py-2">${project.budget}</td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
+    </c:if>
 
-<table border="1">
-    <tr>
-        <th>Project Name</th>
-        <th>Description</th>
-        <th>Start Date</th>
-        <th>End Date</th>
-        <th>Budget</th>
-        <th>Actions</th>
-    </tr>
-
-    <c:forEach var="project" items="${projects}">
-        <tr>
-            <td>${project.nom}</td>
-            <td>${project.description}</td>
-            <td>${project.dateDebut}</td>
-            <td>${project.dateFin}</td>
-            <td>${project.budget}</td>
-            <td>
-                <a href="ViewProjetServlet?id=${project.id}">View</a> |
-                <a href="UpdateProjetServlet?id=${project.id}">Update</a> |
-                <a href="DeleteProjetServlet?id=${project.id}">Delete</a>
-            </td>
-        </tr>
-    </c:forEach>
-</table>
-
-<h2>Add a New Project</h2>
-<form action="AddProjetServlet" method="post">
-    <%--@declare id="budget"--%><%--@declare id="nom"--%><%--@declare id="description"--%><%--@declare id="datedebut"--%><%--@declare id="datefin"--%><label for="nom">Project Name:</label>
-    <input type="text" name="nom" required/><br/>
-
-    <label for="description">Description:</label>
-    <textarea name="description" required></textarea><br/>
-
-    <label for="dateDebut">Start Date:</label>
-    <input type="date" name="dateDebut" required/><br/>
-
-    <label for="dateFin">End Date:</label>
-    <input type="date" name="dateFin" required/><br/>
-
-    <label for="budget">Budget:</label>
-    <input type="number" step="0.01" name="budget" required/><br/>
-
-    <button type="submit">Add Project</button>
-</form>
+    <!-- If no projects, show this message -->
+    <c:if test="${empty projects}">
+        <div class="text-gray-500">No projects to display</div>
+    </c:if>
+</div>
 </body>
 </html>

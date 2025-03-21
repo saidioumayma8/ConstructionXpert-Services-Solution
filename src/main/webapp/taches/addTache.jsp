@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Project - ConstructionXpert</title>
+    <title>Add Task - ConstructionXpert</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 </head>
@@ -28,14 +28,9 @@
     <!-- Main Content -->
     <main class="flex-1 p-8">
         <button id="toggleSidebar" class="px-4 py-2 rounded mb-4 text-gray-700 dark:text-white">Toggle Sidebar</button>
-        <h1 class="text-3xl font-bold text-gray-900 dark:text-white animate-fade-in">Add New Project</h1>
+        <h1 class="text-3xl font-bold text-gray-900 dark:text-white animate-fade-in">Add New Task</h1>
 
-        <form action="/Construction/addProject" method="post" class="bg-gray-800 p-6 shadow-lg rounded-lg mt-6">
-            <div class="mb-4">
-                <label class="block text-gray-200 font-semibold">Project Name</label>
-                <input type="text" name="nom" class="w-full px-4 py-2 border rounded-lg bg-gray-700 text-gray-100" required>
-            </div>
-
+        <form action="/Construction/AddTaskServlet" method="post" class="bg-gray-800 p-6 shadow-lg rounded-lg mt-6">
             <div class="mb-4">
                 <label class="block text-gray-200 font-semibold">Description</label>
                 <textarea name="description" class="w-full px-4 py-2 border rounded-lg bg-gray-700 text-gray-100" required></textarea>
@@ -52,14 +47,19 @@
             </div>
 
             <div class="mb-4">
-                <label class="block text-gray-200 font-semibold">Budget ($)</label>
-                <input type="number" name="budget" class="w-full px-4 py-2 border rounded-lg bg-gray-700 text-gray-100" step="0.01" required>
+                <label class="block text-gray-200 font-semibold">Project</label>
+                <select name="id_projet" class="w-full px-4 py-2 border rounded-lg bg-gray-700 text-gray-100" required>
+                    <!-- Dynamically populated list of projects -->
+                    <option value="">Select a Project</option>
+                    <!-- Example static options; replace with dynamic content -->
+                    <option value="1">Project 1</option>
+                    <option value="2">Project 2</option>
+                    <option value="3">Project 3</option>
+                </select>
             </div>
 
-            <button type="submit" class="bg-orange-500 text-white px-6 py-2 rounded-lg">Add Project</button>
+            <button type="submit" class="bg-orange-500 text-white px-6 py-2 rounded-lg">Add Task</button>
         </form>
-
-
 
     </main>
 </div>

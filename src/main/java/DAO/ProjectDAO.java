@@ -13,13 +13,12 @@ public class ProjectDAO {
 
     private Connection getConnection() throws SQLException {
         // Database connection setup (update your database credentials here)
-        String url = "jdbc:mysql://localhost:3306/your_database";
-        String username = "your_username";
-        String password = "your_password";
+        String url = "jdbc:mysql://localhost:3305/Construction";
+        String username = "root";
+        String password = "admin";
         return DriverManager.getConnection(url, username, password);
     }
 
-    // Method to get a single project by its ID
     // Method to get a single project by its ID
     public Project getProjectById(int id) { // Accept id as an argument
         Project project = null;
@@ -45,51 +44,69 @@ public class ProjectDAO {
         }
         return project;
     }
-
-
     // Method to get all projects (for the project list page)
     public List<Project> getAllProjects() {
         List<Project> projects = new ArrayList<>();
-        String query = "SELECT * FROM projet";
+        String sql = "SELECT * FROM projects";
 
-        try (Connection connection = getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            ResultSet resultSet = preparedStatement.executeQuery();
+        try (PreparedStatement ps = connection.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
 
-            while (resultSet.next()) {
+            while (rs.next()) {
                 Project project = new Project(
-                        resultSet.getInt("id"), resultSet.getString("nom"),
-                        resultSet.getString("description"),
-                        resultSet.getDate("date_debut"),
-                        resultSet.getDate("date_fin"),
-                        resultSet.getDouble("budget")
+                        rs.getInt("id"),
+                        rs.getString("nom"),
+                        rs.getString("description"),
+                        rs.getDate("dateDebut"),
+                        rs.getDate("dateFin"),
+                        rs.getDouble("budget")
                 );
                 projects.add(project);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        System.out.println("Projects retrieved: " + projects.size()); // Debugging line
+
         return projects;
     }
 
-    // Method to add a new project
-    public boolean addProject(Project project) {
-        String query = "INSERT INTO projects (nom, description, date_debut, date_fin, budget) VALUES (?, ?, ?, ?, ?)";
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setString(1, project.getNom());
-            statement.setString(2, project.getDescription());
-            statement.setDate(3, project.getDateDebut());
-            statement.setDate(4, project.getDateFin());
-            statement.setDouble(5, project.getBudget());
+    // Method to add a project to the database
+        public void addProject(String nom, String description, String dateDebut, String dateFin, double budget) throws SQLException {
+            Connection connection = DatabaseConnection.getConnection();
 
-            int rowsInserted = statement.executeUpdate();
-            return rowsInserted > 0; // If rows were inserted, return true
-        } catch (SQLException e) {
-            System.out.println("Error inserting project: " + e.getMessage());
-            e.printStackTrace();
+            if (connection == null) {
+                System.err.println("Database connection is null, cannot proceed with the query.");
+                throw new SQLException("Database connection is not available.");
+            }
+
+            // SQL query to insert a new project
+            String sql = "INSERT INTO Projet (nom, description, date_debut, date_fin, budget) VALUES (?, ?, ?, ?, ?)";
+
+            try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                // Set the parameters for the SQL query
+                statement.setString(1, nom);
+                statement.setString(2, description);
+                statement.setString(3, dateDebut);  // Assuming date format is "yyyy-MM-dd"
+                statement.setString(4, dateFin);    // Assuming date format is "yyyy-MM-dd"
+                statement.setDouble(5, budget);
+
+                // Execute the query
+                int rowsAffected = statement.executeUpdate();
+                if (rowsAffected > 0) {
+                    System.out.println("Project added successfully.");
+                } else {
+                    System.err.println("Failed to add project.");
+                }
+            } catch (SQLException e) {
+                // Log the exception with a detailed message
+                System.err.println("Error executing query: " + e.getMessage());
+                e.printStackTrace();
+                throw e;  // Rethrow the exception to handle it further up the stack if necessary
+            }
         }
-        return false;
-    }
+
 
     // Method to update a project
     public boolean updateProject(Project project, int id) {

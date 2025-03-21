@@ -11,22 +11,23 @@ public class DatabaseConnection {
     public static Connection getConnection() {
         if (connection == null) {
             try {
-                // Load the MySQL driver
+                System.out.println("🔍 Attempting to connect to the database...");
                 Class.forName("com.mysql.cj.jdbc.Driver");
-
-                // Establish the connection
                 connection = DriverManager.getConnection(
-                        "jdbc:mysql://localhost:3305/Construction", // Your database URL
-                        "root",  // Your username
-                        "admin"  // Your password
+                        "jdbc:mysql://localhost:3305/Construction",
+                        "root",
+                        "admin"
                 );
-
-                System.out.println("Database connection established.");
-            } catch (SQLException | ClassNotFoundException e) {
-                // Log any exceptions
-                System.err.println("Failed to establish database connection: " + e.getMessage());
+                System.out.println("✅ Database connection established.");
+            } catch (ClassNotFoundException e) {
+                System.err.println("❌ MySQL Driver not found: " + e.getMessage());
+                e.printStackTrace();
+            } catch (SQLException e) {
+                System.err.println("❌ SQL Error while connecting to the database: " + e.getMessage());
                 e.printStackTrace();
             }
+        } else {
+            System.out.println("🔄 Reusing existing database connection.");
         }
         return connection;
     }

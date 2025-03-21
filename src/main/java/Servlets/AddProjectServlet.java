@@ -1,60 +1,59 @@
 package Servlets;
 
 import DAO.ProjectDAO;
-import Models.Project;
+import java.io.IOException;
+import java.sql.SQLException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import java.io.IOException;
-
-@WebServlet("/AddProjectServlet")
+@WebServlet("/addProject")
 public class AddProjectServlet extends HttpServlet {
 
-    private ProjectDAO projectDAO;
-
     @Override
-    public void init() throws ServletException {
-        projectDAO = new ProjectDAO();
-    }
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String nom = request.getParameter("nom");
+        String description = request.getParameter("description");
+        String dateDebut = request.getParameter("date_debut");
+        String dateFin = request.getParameter("date_fin");
+        double budget;
 
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        // Retrieve form data
-        String nom = req.getParameter("nom");
-        String description = req.getParameter("description");
-        String dateDebutStr = req.getParameter("date_debut");
-        String dateFinStr = req.getParameter("date_fin");
-        double budget = Double.parseDouble(req.getParameter("budget"));
-
-        // Validate dateDebut and dateFin
-        if (dateDebutStr == null || dateDebutStr.isEmpty()) {
-            resp.sendRedirect("Projects/addProject.jsp?error=Date de début manquante");
+        try {
+            budget = Double.parseDouble(request.getParameter("budget"));
+        } catch (NumberFormatException e) {
+            System.err.println("❌ Invalid budget input: " + e.getMessage());
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid budget value.");
             return;
         }
 
-        if (dateFinStr == null || dateFinStr.isEmpty()) {
-            resp.sendRedirect("Projects/addProject.jsp?error=Date de fin manquante");
-            return;
-        }
+        System.out.println("🔍 Received data: Nom = " + nom + ", Description = " + description + ", DateDebut = " + dateDebut + ", DateFin = " + dateFin + ", Budget = " + budget);
 
-        // Parse dates
-        java.sql.Date dateDebut = java.sql.Date.valueOf(dateDebutStr);
-        java.sql.Date dateFin = java.sql.Date.valueOf(dateFinStr);
+        ProjectDAO projectDAO = new ProjectDAO();
 
-        // Create the project object
-        Project project = new Project(nom, description, dateDebut, dateFin, budget);
+        try {
+            if (nom == null || nom.trim().isEmpty() ||
+                    description == null || description.trim().isEmpty() ||
+                    dateDebut == null || dateFin == null || budget <= 0) {
+                System.err.println("❌ Missing fields in project data.");
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "All fields are required.");
+                return;
+            }
 
-        // Add the project using the DAO
-        boolean isAdded = projectDAO.addProject(project);
+            projectDAO.addProject(nom, description, dateDebut, dateFin, budget);
+            System.out.println("Project successfully added. Redirecting...");
+            request.setAttribute("message", "Project added successfully!");
+            request.getRequestDispatcher("/addProject.jsp").forward(request, response);
 
-        if (isAdded) {
-            resp.sendRedirect("projectList.jsp"); // Redirect to project list page if successful
-        } else {
-            resp.sendRedirect("Projects/addProject.jsp?error=Failed to add project");
+        } catch (SQLException e) {
+            System.err.println("SQL Exception in AddProjectServlet: " + e.getMessage());
+            e.printStackTrace();
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Failed to add project due to a database error.");
+        } catch (Exception e) {
+            System.err.println("Unexpected error in AddProjectServlet: " + e.getMessage());
+            e.printStackTrace();
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "An unexpected error occurred.");
         }
     }
 }
-

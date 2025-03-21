@@ -17,7 +17,7 @@
             <h2 class="text-xl font-bold text-gray-800 dark:text-gray-200">Admin Panel</h2>
         </div>
         <nav class="mt-4">
-            <a href="projects.jsp" class="sidebar-link">Projects</a>
+            <a href="./Projects/projects.jsp" class="sidebar-link">Projects</a>
             <a href="Tasks.jsp" class="sidebar-link">Tasks</a>
             <a href="Users.jsp" class="sidebar-link">Users</a>
             <a href="Reports.jsp" class="sidebar-link">Reports</a>
@@ -53,7 +53,7 @@
             <h2 class="text-xl font-bold dark:text-gray-200">Quick Actions</h2>
             <div class="mt-3 space-x-3">
                 <button><a href="./Projects/addProject.jsp">Add Project</a></button>
-                <button><a href="AddTask.jsp">Add Task</a></button>
+                <button><a href="./taches/addTache.jsp">Add Task</a></button>
                 <button><a href="GenerateReport.jsp">Generate Report</a></button>
             </div>
         </div>

@@ -2,13 +2,13 @@ package Servlets;
 
 import DAO.ProjectDAO;
 import Models.Project;
-
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 @WebServlet("/ViewProjetServlet")
 public class ViewProjetServlet extends HttpServlet {
@@ -22,25 +22,14 @@ public class ViewProjetServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String idParam = req.getParameter("id");
+        // Fetch all projects from the database
+        List<Project> projects = projectDAO.getAllProjects();
 
-        if (idParam == null || idParam.isEmpty()) {
-            resp.sendRedirect("ProjectServlet?errorMessage=ID du projet invalide");
-            return;
-        }
-
-        try {
-            int id = Integer.parseInt(idParam);
-            Project projet = projectDAO.getProjectById(id); // Call the method with the id passed
-
-            if (projet != null) {
-                req.setAttribute("projet", projet);
-                req.getRequestDispatcher("DashboardProjet.jsp").forward(req, resp);
-            } else {
-                resp.sendRedirect("ProjectServlet?errorMessage=Aucun projet trouvé avec cet ID");
-            }
-        } catch (NumberFormatException e) {
-            resp.sendRedirect("ProjectServlet?errorMessage=ID du projet invalide");
-        }
+        req.setAttribute("projects", projects); // Pass the list of projects to the JSP
+        req.getRequestDispatcher("projects.jsp").forward(req, resp); // Forward to the JSP page for display
     }
 }
+
+
+
+
