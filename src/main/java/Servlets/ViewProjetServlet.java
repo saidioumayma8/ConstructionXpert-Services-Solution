@@ -2,6 +2,7 @@ package Servlets;
 
 import DAO.ProjectDAO;
 import Models.Project;
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -10,25 +11,21 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/ViewProjetServlet")
+@WebServlet("/projects")
 public class ViewProjetServlet extends HttpServlet {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        List<Project> projects = ProjectDAO.getAllProjects();
+        request.setAttribute("projects", projects);  // Set the projects list as a request attribute
 
-    private ProjectDAO projectDAO;
-
-    @Override
-    public void init() throws ServletException {
-        projectDAO = new ProjectDAO();
-    }
-
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        // Fetch all projects from the database
-        List<Project> projects = projectDAO.getAllProjects();
-
-        req.setAttribute("projects", projects); // Pass the list of projects to the JSP
-        req.getRequestDispatcher("projects.jsp").forward(req, resp); // Forward to the JSP page for display
+        // Forward the request to the JSP
+        RequestDispatcher dispatcher = request.getRequestDispatcher("Projects/projects.jsp");  // Path to your JSP
+        dispatcher.forward(request, response);
     }
 }
+
+
+
+
 
 
 

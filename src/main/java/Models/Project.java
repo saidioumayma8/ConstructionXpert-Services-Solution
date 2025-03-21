@@ -71,31 +71,23 @@ public class Project {
         return dateDebut;
     }
 
-    public void setDateDebut(java.util.Date dateDebut) {
-        this.dateDebut = new Date(dateDebut.getTime());
-    }
-
-    public void setDateDebut(String dateDebut) {
-        this.dateDebut = Date.valueOf(dateDebut); // Requires "yyyy-MM-dd"
+    public void setDateDebut(Date dateDebut) {
+        this.dateDebut = dateDebut;
     }
 
     public Date getDateFin() {
         return dateFin;
     }
 
-    public void setDateFin(java.util.Date dateFin) {
-        this.dateFin = new Date(dateFin.getTime());
+    public void setDateFin(Date dateFin) {
+        this.dateFin = dateFin;
     }
 
-    public void setDateFin(String dateFin) {
-        this.dateFin = Date.valueOf(dateFin); // Requires "yyyy-MM-dd"
-    }
-
-    public Double getBudget() {
+    public double getBudget() {
         return budget;
     }
 
-    public void setBudget(Double budget) {
+    public void setBudget(double budget) {
         this.budget = budget;
     }
 }

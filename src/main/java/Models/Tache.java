@@ -1,15 +1,15 @@
-package Models;
+import java.sql.Date;
 
 public class Tache {
     private int id;
     private String description;
-    private String dateDebut;
-    private String dateFin;
-    private int idProjet; // Clé étrangère vers Projet
+    private Date dateDebut; // Changed to java.sql.Date
+    private Date dateFin;   // Changed to java.sql.Date
+    private int idProjet;   // Foreign key for Project
 
     public Tache() {}
 
-    public Tache(int id, String description, String dateDebut, String dateFin, int idProjet) {
+    public Tache(int id, String description, Date dateDebut, Date dateFin, int idProjet) {
         this.id = id;
         this.description = description;
         this.dateDebut = dateDebut;
@@ -24,13 +24,12 @@ public class Tache {
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }
 
-    public String getDateDebut() { return dateDebut; }
-    public void setDateDebut(String dateDebut) { this.dateDebut = dateDebut; }
+    public Date getDateDebut() { return dateDebut; }
+    public void setDateDebut(Date dateDebut) { this.dateDebut = dateDebut; }
 
-    public String getDateFin() { return dateFin; }
-    public void setDateFin(String dateFin) { this.dateFin = dateFin; }
+    public Date getDateFin() { return dateFin; }
+    public void setDateFin(Date dateFin) { this.dateFin = dateFin; }
 
     public int getIdProjet() { return idProjet; }
     public void setIdProjet(int idProjet) { this.idProjet = idProjet; }
 }
-

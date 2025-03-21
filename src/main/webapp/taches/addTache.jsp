@@ -16,7 +16,7 @@
             <h2 class="text-xl font-bold text-gray-200 dark:text-gray-200">Admin Panel</h2>
         </div>
         <nav class="mt-4">
-            <a href="../Projects/projects.jsp" class="sidebar-link">Projects</a>
+            <a href="projects" class="sidebar-link">Projects</a>
             <a href="Tasks.jsp" class="sidebar-link">Tasks</a>
             <a href="Users.jsp" class="sidebar-link">Users</a>
             <a href="Reports.jsp" class="sidebar-link">Reports</a>

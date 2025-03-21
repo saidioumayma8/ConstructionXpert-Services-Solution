@@ -7,8 +7,6 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static Utils.DatabaseConnection.connection;
-
 public class ProjectDAO {
 
     private Connection getConnection() throws SQLException {
@@ -45,32 +43,34 @@ public class ProjectDAO {
         return project;
     }
     // Method to get all projects (for the project list page)
-    public List<Project> getAllProjects() {
+    public static List<Project> getAllProjects() {
         List<Project> projects = new ArrayList<>();
-        String sql = "SELECT * FROM projects";
 
-        try (PreparedStatement ps = connection.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+        String query = "SELECT id, nom, description, date_debut, date_fin, budget FROM projet";
+
+        // Open a new connection inside the method
+        try (Connection conn = DatabaseConnection.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
 
             while (rs.next()) {
-                Project project = new Project(
-                        rs.getInt("id"),
-                        rs.getString("nom"),
-                        rs.getString("description"),
-                        rs.getDate("dateDebut"),
-                        rs.getDate("dateFin"),
-                        rs.getDouble("budget")
-                );
+                Project project = new Project();
+                project.setId(rs.getInt("id"));
+                project.setNom(rs.getString("nom"));
+                project.setDescription(rs.getString("description"));
+                project.setDateDebut(rs.getDate("date_debut"));
+                project.setDateFin(rs.getDate("date_fin"));
+                project.setBudget(rs.getDouble("budget"));
                 projects.add(project);
             }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        System.out.println("Projects retrieved: " + projects.size()); // Debugging line
-
         return projects;
     }
+
 
     // Method to add a project to the database
         public void addProject(String nom, String description, String dateDebut, String dateFin, double budget) throws SQLException {
