@@ -1,23 +1,14 @@
 package DAO;
 
 import Models.Project;
-import Utils.DatabaseConnection;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static Utils.DatabaseConnection.getConnection;
+
 public class ProjectDAO {
 
-    private Connection getConnection() throws SQLException {
-        // Database connection setup (update your database credentials here)
-        String url = "jdbc:mysql://localhost:3305/Construction";
-        String username = "root";
-        String password = "admin";
-        return DriverManager.getConnection(url, username, password);
-    }
-
-    // Method to get a single project by its ID
     public Project getProjectById(int id) { // Accept id as an argument
         Project project = null;
         String query = "SELECT * FROM projet WHERE id = ?";
@@ -32,8 +23,8 @@ public class ProjectDAO {
                         resultSet.getInt("id"),  // If Project has an id field
                         resultSet.getString("nom"),
                         resultSet.getString("description"),
-                        resultSet.getDate("date_debut"),
-                        resultSet.getDate("date_fin"),
+                        resultSet.getString("date_bedut"),
+                        resultSet.getString("date_fin"),
                         resultSet.getDouble("budget")
                 );
             }
@@ -42,26 +33,33 @@ public class ProjectDAO {
         }
         return project;
     }
+
+
+    // Method to get all projects (for the project list page)
     // Method to get all projects (for the project list page)
     public static List<Project> getAllProjects() {
         List<Project> projects = new ArrayList<>();
+        String sql = "SELECT * FROM projet";
 
-        String query = "SELECT id, nom, description, date_debut, date_fin, budget FROM projet";
-
-        // Open a new connection inside the method
-        try (Connection conn = DatabaseConnection.getConnection();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(query)) {
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
                 Project project = new Project();
                 project.setId(rs.getInt("id"));
                 project.setNom(rs.getString("nom"));
                 project.setDescription(rs.getString("description"));
-                project.setDateDebut(rs.getDate("date_debut"));
-                project.setDateFin(rs.getDate("date_fin"));
+                project.setDateDebut(rs.getString("date_debut"));
+                project.setDateFin(rs.getString("date_fin"));
                 project.setBudget(rs.getDouble("budget"));
                 projects.add(project);
+            }
+
+            // Debugging: Print the retrieved projects
+            System.out.println("Projects retrieved: " + projects.size());
+            for (Project p : projects) {
+                System.out.println(p.getId() + " - " + p.getNom());
             }
 
         } catch (SQLException e) {
@@ -72,9 +70,11 @@ public class ProjectDAO {
     }
 
 
+
+
     // Method to add a project to the database
         public void addProject(String nom, String description, String dateDebut, String dateFin, double budget) throws SQLException {
-            Connection connection = DatabaseConnection.getConnection();
+            Connection connection = getConnection();
 
             if (connection == null) {
                 System.err.println("Database connection is null, cannot proceed with the query.");
@@ -117,8 +117,8 @@ public class ProjectDAO {
 
             preparedStatement.setString(1, project.getNom());
             preparedStatement.setString(2, project.getDescription());
-            preparedStatement.setDate(3, new java.sql.Date(project.getDateDebut().getTime()));
-            preparedStatement.setDate(4, new java.sql.Date(project.getDateFin().getTime()));
+            preparedStatement.setString(3, project.getDateDebut());
+            preparedStatement.setString(4, project.getDateFin());
             preparedStatement.setDouble(5, project.getBudget());
             preparedStatement.setInt(6, id); // Make sure to set the id here
 
@@ -146,4 +146,5 @@ public class ProjectDAO {
             return false;
         }
     }
+
 }

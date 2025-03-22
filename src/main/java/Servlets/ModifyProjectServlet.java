@@ -11,8 +11,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Date;
 
-@WebServlet("/ModifierServlet")
-public class ModifierServlet extends HttpServlet {
+@WebServlet("/modifyProject")
+public class ModifyProjectServlet extends HttpServlet {
 
     private ProjectDAO projectDAO;
 

@@ -1,4 +1,6 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="Models.Project" %>
+<%@ page import="java.util.List" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -33,25 +35,52 @@
         <h1 class="text-3xl font-bold text-gray-900 dark:text-white animate-fade-in">All Projects</h1>
         <p class="text-gray-600 dark:text-gray-300 mt-2">Here is a list of all the projects.</p>
 
-        <!-- Projects List -->
-        <div class="mt-6">
-            <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">Total Projects: ${projects.size}</p>
+            <%
+    List<Project> projects = (List<Project>) request.getAttribute("projects");
+%>
 
-            <div class="space-y-4 mt-4">
-                <c:if test="${not empty projects}">
-                    <c:forEach var="project" items="${projects}">
-                        <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-                            <h3 class="text-2xl font-semibold text-gray-900 dark:text-gray-100">${project.nom}</h3>
-                            <p class="text-gray-700 dark:text-gray-300">${project.description}</p>
-                            <div class="mt-4 text-sm text-gray-600 dark:text-gray-400">
-                                <p>Start Date: ${project.dateDebut}</p>
-                                <p>End Date: ${project.dateFin}</p>
-                                <p>Budget: ${project.budget}</p>
-                            </div>
-                        </div>
-                    </c:forEach>
-                </c:if>
-            </div>
+        <table class="w-full border-collapse">
+            <thead>
+            <tr class="bg-gray-200">
+                <th class="p-3">ID</th>
+                <th class="p-3">Name</th>
+                <th class="p-3">Description</th>
+                <th class="p-3">Start Date</th>
+                <th class="p-3">End Date</th>
+                <th class="p-3">Budget</th>
+                <th class="p-3">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% if (projects != null && !projects.isEmpty()) { %>
+            <% for(Project project : projects) { %>
+            <tr class="border-b hover:bg-[#A8D5BA]/20 transition duration-300">
+                <td class="p-3"><%= project.getId() %></td>
+                <td class="p-3"><%= project.getNom() %></td> <%-- Vérifie si c'est getName() ou getNom() --%>
+                <td class="p-3"><%= project.getDescription() %></td>
+                <td class="p-3"><%= project.getDateDebut() %></td>
+                <td class="p-3"><%= project.getDateFin() %></td>
+                <td class="p-3"><%= project.getBudget() %></td>
+                <td>
+                    <!-- Edit Button -->
+                    <a href="modifyProject?id=<%= project.getId() %>" class="btn btn-primary">Edit</a>
+                    <!-- Delete Button with Confirmation -->
+                    <a href="deleteProject?id=<%= project.getId() %>" class="btn btn-danger"
+                       onclick="return confirm('Are you sure you want to delete this project?');">Delete</a>
+
+
+                </td>
+            </tr>
+            <% } %>
+            <% } else { %>
+            <tr>
+                <td colspan="7" class="p-3 text-center text-red-500">No projects found!</td>
+            </tr>
+            <% } %>
+            </tbody>
+        </table>
+
+</div>
         </div>
     </main>
 </div>

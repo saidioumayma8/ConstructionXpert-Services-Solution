@@ -14,12 +14,15 @@ import java.util.List;
 @WebServlet("/projects")
 public class ViewProjetServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<Project> projects = ProjectDAO.getAllProjects();
-        request.setAttribute("projects", projects);  // Set the projects list as a request attribute
-
-        // Forward the request to the JSP
-        RequestDispatcher dispatcher = request.getRequestDispatcher("Projects/projects.jsp");  // Path to your JSP
+        ProjectDAO projectDAO = new ProjectDAO();
+        List<Project> projects = projectDAO.getAllProjects();
+        if (projects.isEmpty()) {
+            System.out.println("No projects found in the database.");
+        }
+        request.setAttribute("projects", projects);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("Projects/projects.jsp");
         dispatcher.forward(request, response);
+
     }
 }
 

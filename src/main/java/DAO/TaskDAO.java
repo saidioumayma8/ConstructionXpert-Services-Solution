@@ -1,24 +1,14 @@
 package DAO;
 
 import Models.Project;
-import Servlets.ProjectServlet;
 import Utils.DatabaseConnection;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.Date;
 
 public class TaskDAO {
 
-    private Connection getConnection() throws SQLException {
-        // Database connection setup (update your database credentials here)
-        String url = "jdbc:mysql://localhost:3305/Construction";
-        String username = "root";
-        String password = "admin";
-        return DriverManager.getConnection(url, username, password);
-    }
     public void addTask(String description, String dateDebut, String dateFin, Project project) throws SQLException {
         Connection connection = DatabaseConnection.getConnection();
 
@@ -31,14 +21,11 @@ public class TaskDAO {
         String sql = "INSERT INTO tache (description, date_debut, date_fin, id_projet) VALUES (?, ?, ?, ?)";
 
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            // Convert String dates to java.sql.Date
-            Date sqlDateDebut = Date.valueOf(dateDebut);
-            Date sqlDateFin = Date.valueOf(dateFin);
 
             // Set the parameters for the SQL query
             statement.setString(1, description);
-            statement.setDate(2, sqlDateDebut);  // Using java.sql.Date for date
-            statement.setDate(3, sqlDateFin);    // Using java.sql.Date for date
+            statement.setString(2, dateDebut);  // Using java.sql.Date for date
+            statement.setString(3, dateFin);    // Using java.sql.Date for date
             statement.setInt(4, project.getId());  // Get the project ID from the project object
 
             // Execute the query
