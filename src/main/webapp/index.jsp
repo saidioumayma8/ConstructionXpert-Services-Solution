@@ -18,7 +18,7 @@
         </div>
         <nav class="mt-4">
             <a href="projects" class="sidebar-link">Projects</a>
-            <a href="Tasks.jsp" class="sidebar-link">Tasks</a>
+            <a href="taches" class="sidebar-link">Tasks</a>
             <a href="Users.jsp" class="sidebar-link">Users</a>
             <a href="Reports.jsp" class="sidebar-link">Reports</a>
             <a href="Settings.jsp" class="sidebar-link">Settings</a>

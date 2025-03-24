@@ -55,10 +55,10 @@
             <% for(Tache task : tasks) { %>
             <tr class="border-b hover:bg-[#A8D5BA]/20 transition duration-300">
                 <td class="p-3"><%= task.getId() %></td>
-                <td class="p-3"><%= task.getDescription(rs.getString("description")) %></td>
-                <td class="p-3"><%= task.getDateDebut(rs.getString("description")) %></td>
-                <td class="p-3"><%= task.getDateFin(rs.getString("date_fin")) %></td>
-                <td class="p-3"><%= task.getProjectId(rs.getInt("project_id")) %></td>
+                <td class="p-3"><%= task.getDescription() %></td>
+                <td class="p-3"><%= task.getDateDebut() %></td>
+                <td class="p-3"><%= task.getDateFin() %></td>
+                <td class="p-3"><%= task.getProjectId() %></td>
                 <td>
                     <!-- Edit Button -->
                     <a href="modifyTask?id=<%= task.getId %>" class="btn btn-primary">Edit</a>

@@ -45,10 +45,10 @@ public class ModifyProjectServlet extends HttpServlet {
         boolean updated = projectDAO.updateProject(project);
 
         if (updated) {
-            response.sendRedirect("Projects/projects.jsp"); // Redirect to the project list after updating
+            response.sendRedirect("/Projects/projects.jsp"); // Redirect to the project list after updating
         } else {
             request.setAttribute("errorMessage", "Failed to update project.");
-            RequestDispatcher dispatcher = request.getRequestDispatcher("Projects/editProject.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/Projects/editProject.jsp");
             dispatcher.forward(request, response);
         }
     }

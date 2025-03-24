@@ -29,7 +29,7 @@ public class DeleteProjectServlet extends HttpServlet {
             request.setAttribute("projects", projects);
 
             // Forward to the projects.jsp page
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/projects.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("Projects/projects.jsp");
             dispatcher.forward(request, response);
         } else {
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error deleting project.");

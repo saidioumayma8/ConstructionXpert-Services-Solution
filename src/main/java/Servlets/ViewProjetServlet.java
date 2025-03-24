@@ -20,7 +20,7 @@ public class ViewProjetServlet extends HttpServlet {
             System.out.println("No projects found in the database.");
         }
         request.setAttribute("projects", projects);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("Projects/projects.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/Projects/projects.jsp");
         dispatcher.forward(request, response);
 
     }

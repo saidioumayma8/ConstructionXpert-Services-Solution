@@ -16,7 +16,7 @@ import Models.Tache;
 public class AddTaskServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Retrieve form parameters
-        String nom = request.getParameter("nom"); // ✅ Fix: Ensure 'nom' is retrieved
+        String nom = request.getParameter("nom");
         String description = request.getParameter("description");
         String date_debut = request.getParameter("date_debut");
         String date_fin = request.getParameter("date_fin");
@@ -36,7 +36,7 @@ public class AddTaskServlet extends HttpServlet {
 
         // Redirect or show a message
         if (success) {
-            response.sendRedirect("Taches.jsp?success=1");
+            response.sendRedirect("/taches/Taches.jsp?success=1");
         } else {
             response.sendRedirect("addTache.jsp?error=1");
         }

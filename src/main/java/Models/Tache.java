@@ -1,6 +1,7 @@
 package Models;
 
 public class Tache {
+    public boolean getId;
     private int id;
     private String description;
     private String dateDebut;
@@ -23,19 +24,19 @@ public class Tache {
     }
 
     // Getters
-    public String getDescription(String description) {
+    public String getDescription() {
         return this.description;
     }
 
-    public String getDateDebut(String description) {
+    public String getDateDebut() {
         return dateDebut;
     }
 
-    public String getDateFin(String dateFin) {
+    public String getDateFin() {
         return this.dateFin;
     }
 
-    public int getProjectId(int projectId) {
+    public int getProjectId() {
         return this.projectId;
     }
 

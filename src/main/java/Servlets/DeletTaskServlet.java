@@ -1,15 +1,12 @@
 package Servlets;
 
-import DAO.ProjectDAO;
 import DAO.TaskDAO;
-import Models.Project;
 import Models.Tache;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
 import java.io.IOException;
 import java.util.List;
 
@@ -33,10 +30,10 @@ public class DeletTaskServlet extends HttpServlet {
             request.setAttribute("tasks", taches);
 
             // Forward to the projects.jsp page
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/tasks.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/taches/tasks.jsp");
             dispatcher.forward(request, response);
         } else {
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error deleting project.");
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error deleting tache.");
         }
     }
 }
