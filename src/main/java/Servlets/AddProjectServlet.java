@@ -23,12 +23,12 @@ public class AddProjectServlet extends HttpServlet {
         try {
             budget = Double.parseDouble(request.getParameter("budget"));
         } catch (NumberFormatException e) {
-            System.err.println("❌ Invalid budget input: " + e.getMessage());
+            System.err.println("Invalid budget input: " + e.getMessage());
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid budget value.");
             return;
         }
 
-        System.out.println("🔍 Received data: Nom = " + nom + ", Description = " + description + ", DateDebut = " + dateDebut + ", DateFin = " + dateFin + ", Budget = " + budget);
+        System.out.println("Received data: Nom = " + nom + ", Description = " + description + ", DateDebut = " + dateDebut + ", DateFin = " + dateFin + ", Budget = " + budget);
 
         ProjectDAO projectDAO = new ProjectDAO();
 
@@ -36,7 +36,7 @@ public class AddProjectServlet extends HttpServlet {
             if (nom == null || nom.trim().isEmpty() ||
                     description == null || description.trim().isEmpty() ||
                     dateDebut == null || dateFin == null || budget <= 0) {
-                System.err.println("❌ Missing fields in project data.");
+                System.err.println("Missing fields in project data.");
                 response.sendError(HttpServletResponse.SC_BAD_REQUEST, "All fields are required.");
                 return;
             }
@@ -44,7 +44,7 @@ public class AddProjectServlet extends HttpServlet {
             projectDAO.addProject(nom, description, dateDebut, dateFin, budget);
             System.out.println("Project successfully added. Redirecting...");
             request.setAttribute("message", "Project added successfully!");
-            request.getRequestDispatcher("/addProject.jsp").forward(request, response);
+            request.getRequestDispatcher("/projects.jsp").forward(request, response);
 
         } catch (SQLException e) {
             System.err.println("SQL Exception in AddProjectServlet: " + e.getMessage());

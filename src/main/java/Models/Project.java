@@ -1,6 +1,6 @@
 package Models;
 
-import java.sql.Date;
+import java.util.Date;
 
 public class Project {
     private int id;
@@ -43,6 +43,9 @@ public class Project {
     }
 
     public Project(int id, String nom, String description, long dateDebut, long dateFin, double budget) {
+    }
+
+    public Project(int id, String nom, String description, Date dateDebut, Date dateFin, double budget) {
     }
 
     public int getId() {

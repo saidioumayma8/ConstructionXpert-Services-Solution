@@ -3,56 +3,53 @@ package Servlets;
 import DAO.ProjectDAO;
 import Models.Project;
 
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Date;
 
 @WebServlet("/modifyProject")
 public class ModifyProjectServlet extends HttpServlet {
 
-    private ProjectDAO projectDAO;
+    // Handles GET requests (for displaying the edit page)
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int id = Integer.parseInt(request.getParameter("id"));
 
-    @Override
-    public void init() throws ServletException {
-        projectDAO = new ProjectDAO();
-    }
+        ProjectDAO projectDAO = new ProjectDAO();
+        Project project = projectDAO.getProjectById(id);
 
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        // Get project details from the request
-        String idParam = req.getParameter("id");
-        String nom = req.getParameter("nom");
-        String description = req.getParameter("description");
-        long dateDebut = Date.parse(req.getParameter("date_debut")); // Assuming the date format is YYYY-MM-DD
-        long dateFin = Date.parse(req.getParameter("date_fin"));
-        double budget = Double.parseDouble(req.getParameter("budget"));
-
-        if (idParam == null || idParam.isEmpty()) {
-            resp.sendRedirect("ProjectServlet?errorMessage=ID du projet invalide");
+        if (project == null) {
+            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Project not found");
             return;
         }
 
-        try {
-            int id = Integer.parseInt(idParam);
+        request.setAttribute("project", project);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/editProject.jsp");
+        dispatcher.forward(request, response);
+    }
 
-            // Create a new project object
-            Project project = new Project(id, nom, description, dateDebut, dateFin, budget);
+    // Handles POST requests (for modifying the project)
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int id = Integer.parseInt(request.getParameter("id"));
+        String nom = request.getParameter("nom");
+        String description = request.getParameter("description");
+        String dateDebut = request.getParameter("dateDebut");
+        String dateFin = request.getParameter("dateFin");
+        double budget = Double.parseDouble(request.getParameter("budget"));
 
-            // Call the update method
-            boolean isUpdated = projectDAO.updateProject(project, id);
+        Project project = new Project(id, nom, description, dateDebut, dateFin, budget);
+        ProjectDAO projectDAO = new ProjectDAO();
+        boolean updated = projectDAO.updateProject(project);
 
-            if (isUpdated) {
-                resp.sendRedirect("ProjectServlet?successMessage=Projet modifié avec succès");
-            } else {
-                resp.sendRedirect("ProjectServlet?errorMessage=Erreur lors de la modification du projet");
-            }
-
-        } catch (NumberFormatException e) {
-            resp.sendRedirect("ProjectServlet?errorMessage=ID ou budget invalide");
+        if (updated) {
+            response.sendRedirect("Projects/projects.jsp"); // Redirect to the project list after updating
+        } else {
+            request.setAttribute("errorMessage", "Failed to update project.");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("Projects/editProject.jsp");
+            dispatcher.forward(request, response);
         }
     }
 }

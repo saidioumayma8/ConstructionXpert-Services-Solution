@@ -10,8 +10,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet("/addTask")
+@WebServlet("/AddTaskServlet")
 public class TaskServlet extends HttpServlet {
+
 
     private TaskDAO taskDAO;
 
@@ -34,7 +35,7 @@ public class TaskServlet extends HttpServlet {
 
         // Call the DAO to add the task
         try {
-            taskDAO.addTask(description, dateDebut, dateFin, project);
+            taskDAO.addTask( description, dateDebut, dateFin, project.getId());
             response.sendRedirect("taskSuccess.jsp");  // Redirect to a success page
         } catch (SQLException e) {
             e.printStackTrace();

@@ -23,7 +23,7 @@ public class ProjectDAO {
                         resultSet.getInt("id"),  // If Project has an id field
                         resultSet.getString("nom"),
                         resultSet.getString("description"),
-                        resultSet.getString("date_bedut"),
+                        resultSet.getString("date_debut"),
                         resultSet.getString("date_fin"),
                         resultSet.getDouble("budget")
                 );
@@ -33,9 +33,6 @@ public class ProjectDAO {
         }
         return project;
     }
-
-
-    // Method to get all projects (for the project list page)
     // Method to get all projects (for the project list page)
     public static List<Project> getAllProjects() {
         List<Project> projects = new ArrayList<>();
@@ -109,26 +106,25 @@ public class ProjectDAO {
 
 
     // Method to update a project
-    public boolean updateProject(Project project, int id) {
-        String query = "UPDATE projet SET nom = ?, description = ?, date_debut = ?, date_fin = ?, budget = ? WHERE id = ?";
+    public boolean updateProject(Project project) {
+        String sql = "UPDATE projet SET nom=?, description=?, dateDebut=?, dateFin=?, budget=? WHERE id=?";
 
-        try (Connection connection = getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            preparedStatement.setString(1, project.getNom());
-            preparedStatement.setString(2, project.getDescription());
-            preparedStatement.setString(3, project.getDateDebut());
-            preparedStatement.setString(4, project.getDateFin());
-            preparedStatement.setDouble(5, project.getBudget());
-            preparedStatement.setInt(6, id); // Make sure to set the id here
+            stmt.setString(1, project.getNom());
+            stmt.setString(2, project.getDescription());
+            stmt.setString(3, project.getDateDebut());
+            stmt.setString(4, project.getDateFin());
+            stmt.setDouble(5, project.getBudget());
+            stmt.setInt(6, project.getId());
 
-            int result = preparedStatement.executeUpdate();
-            return result > 0;
-
+            int rowsUpdated = stmt.executeUpdate();
+            return rowsUpdated > 0;
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
         }
+        return false;
     }
 
 

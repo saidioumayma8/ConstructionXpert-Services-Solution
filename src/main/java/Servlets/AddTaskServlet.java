@@ -1,40 +1,44 @@
 package Servlets;
-import DAO.TaskDAO;
-import Models.Project;
 
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.*;
 import java.io.IOException;
 import java.sql.SQLException;
 
-@WebServlet("/createTask")
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import DAO.TaskDAO;
+import Models.Tache;
+
+@WebServlet("/AddTaskServlet")
 public class AddTaskServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Get data from the form
+        // Retrieve form parameters
+        String nom = request.getParameter("nom"); // ✅ Fix: Ensure 'nom' is retrieved
         String description = request.getParameter("description");
-        String dateDebut = request.getParameter("dateDebut");
-        String dateFin = request.getParameter("dateFin");
-        int projectId = Integer.parseInt(request.getParameter("projectId"));
+        String date_debut = request.getParameter("date_debut");
+        String date_fin = request.getParameter("date_fin");
+        int project_id = Integer.parseInt(request.getParameter("project_id"));
 
-        // Create Project object (this can be fetched from DB or passed as parameter)
-        Project project = new Project();  // Assuming you fetch the actual project from the database
+        // Create a Task object
+        Tache newTask = new Tache(description, date_debut, date_fin, project_id);
 
+        // Insert task into the database
         TaskDAO taskDAO = new TaskDAO();
+        boolean success = false;
         try {
-            taskDAO.addTask(description, dateDebut, dateFin, project);
-            // If task is added successfully, redirect to a success page
-            response.sendRedirect("/addTache.jsp");  // Redirect to success page after task creation
+            success = taskDAO.addTask(newTask);
         } catch (SQLException e) {
-            // Handle exception and send error message in response
-            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
 
-            // Set an error message as an attribute and send it back in the same page
-            request.setAttribute("errorMessage", "An error occurred while adding the task: " + e.getMessage());
-
-            // Forward back to the task creation page
-            request.getRequestDispatcher("/createTask.jsp").forward(request, response);
+        // Redirect or show a message
+        if (success) {
+            response.sendRedirect("Taches.jsp?success=1");
+        } else {
+            response.sendRedirect("addTache.jsp?error=1");
         }
     }
 }
-

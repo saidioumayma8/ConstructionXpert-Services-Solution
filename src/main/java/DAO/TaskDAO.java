@@ -1,34 +1,82 @@
 package DAO;
 
-import Models.Project;
-import Utils.DatabaseConnection;
+import Models.Tache;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import static Utils.DatabaseConnection.getConnection;
 
 public class TaskDAO {
 
-    public void addTask(String description, String dateDebut, String dateFin, Project project) throws SQLException {
-        Connection connection = DatabaseConnection.getConnection();
+    // Method to get a task by its ID
+    public Tache getTacheById(int id) {
+        Tache tache = null;
+        String query = "SELECT * FROM tache WHERE id = ?";
+
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                tache = new Tache(
+                        resultSet.getInt("id"),
+                        resultSet.getString("description"),
+                        resultSet.getString("date_debut"),
+                        resultSet.getString("date_fin"),
+                        resultSet.getInt("project_id") // Assuming the foreign key column is named project_id
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return tache;
+    }
+
+    // Method to get all tasks
+    public static List<Tache> getAllTaches() {
+        List<Tache> taches = new ArrayList<>();
+        String sql = "SELECT * FROM tache";
+
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                Tache tache = new Tache();
+                tache.setId(rs.getInt("id"));
+                tache.getDescription(rs.getString("description"));
+                tache.getDateDebut(rs.getString("date_debut"));
+                tache.getDateFin(rs.getString("date_fin"));
+                tache.getProjectId(rs.getInt("project_id"));
+                taches.add(tache);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return taches;
+    }
+
+    // Method to add a new task
+    public void addTache(String description, String dateDebut, String dateFin, int projectId) throws SQLException {
+        Connection connection = getConnection();
 
         if (connection == null) {
             System.err.println("Database connection is null, cannot proceed with the query.");
             throw new SQLException("Database connection is not available.");
         }
 
-        // SQL query to insert a new task
-        String sql = "INSERT INTO tache (description, date_debut, date_fin, id_projet) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO tache (description, date_debut, date_fin, project_id) VALUES (?, ?, ?, ?)";
 
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
-
-            // Set the parameters for the SQL query
             statement.setString(1, description);
-            statement.setString(2, dateDebut);  // Using java.sql.Date for date
-            statement.setString(3, dateFin);    // Using java.sql.Date for date
-            statement.setInt(4, project.getId());  // Get the project ID from the project object
+            statement.setString(2, dateDebut);  // Assuming date format is "yyyy-MM-dd"
+            statement.setString(3, dateFin);    // Assuming date format is "yyyy-MM-dd"
+            statement.setInt(4, projectId);
 
-            // Execute the query
             int rowsAffected = statement.executeUpdate();
             if (rowsAffected > 0) {
                 System.out.println("Task added successfully.");
@@ -36,11 +84,26 @@ public class TaskDAO {
                 System.err.println("Failed to add task.");
             }
         } catch (SQLException e) {
-            // Log the exception with a detailed message
-            System.err.println("Error executing query: " + e.getMessage());
             e.printStackTrace();
-            throw e;  // Rethrow the exception to handle it further up the stack if necessary
+            throw e;  // Rethrow the exception to handle it further up the stack
         }
     }
 
+    // Method to update a task
+    //
+
+    // Method to delete a task by its ID
+    public boolean deleteTache(int id) {
+        String query = "DELETE FROM tache WHERE id = ?";
+
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, id);
+            int result = preparedStatement.executeUpdate();
+            return result > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

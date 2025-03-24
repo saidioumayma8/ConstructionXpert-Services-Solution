@@ -1,37 +1,50 @@
 package Models;
 
-import java.sql.Date;
-
 public class Tache {
     private int id;
     private String description;
-    private Date dateDebut; // Changed to java.sql.Date
-    private Date dateFin;   // Changed to java.sql.Date
-    private int idProjet;   // Foreign key for Project
+    private String dateDebut;
+    private String dateFin;
+    private int projectId;
 
-    public Tache() {}
-
-    public Tache(int id, String description, Date dateDebut, Date dateFin, int idProjet) {
-        this.id = id;
+    // Constructor
+    public Tache(String description, String dateDebut, String dateFin, int projectId) {
         this.description = description;
         this.dateDebut = dateDebut;
         this.dateFin = dateFin;
-        this.idProjet = idProjet;
+        this.projectId = projectId;
     }
 
-    // Getters & Setters
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
+    public Tache() {
 
-    public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
+    }
 
-    public Date getDateDebut() { return dateDebut; }
-    public void setDateDebut(Date dateDebut) { this.dateDebut = dateDebut; }
+    public Tache(int id, String description, String dateDebut, String dateFin, int projectId) {
+    }
 
-    public Date getDateFin() { return dateFin; }
-    public void setDateFin(Date dateFin) { this.dateFin = dateFin; }
+    // Getters
+    public String getDescription(String description) {
+        return this.description;
+    }
 
-    public int getIdProjet() { return idProjet; }
-    public void setIdProjet(int idProjet) { this.idProjet = idProjet; }
+    public String getDateDebut(String description) {
+        return dateDebut;
+    }
+
+    public String getDateFin(String dateFin) {
+        return this.dateFin;
+    }
+
+    public int getProjectId(int projectId) {
+        return this.projectId;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
 }
