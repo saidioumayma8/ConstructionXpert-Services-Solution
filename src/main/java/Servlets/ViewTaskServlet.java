@@ -18,10 +18,10 @@ public class ViewTaskServlet extends HttpServlet {
         TaskDAO taskDAO = new TaskDAO();
         List<Tache> taches = taskDAO.getAllTaches();
         if (taches.isEmpty()) {
-            System.out.println("No projects found in the database.");
+            System.out.println("No tasks found in the database.");
         }
-        request.setAttribute("projects", taches);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("Projects/projects.jsp");
+        request.setAttribute("tasks", taches);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("taches/Taches.jsp");
         dispatcher.forward(request, response);
 
     }
