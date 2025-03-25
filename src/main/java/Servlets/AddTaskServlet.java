@@ -14,13 +14,13 @@ public class AddTaskServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Correct parameter names
+
         String description = request.getParameter("description");
         String dateDebut = request.getParameter("date_debut");
         String dateFin = request.getParameter("date_fin");
         String idProjectStr = request.getParameter("id_project");
 
-        // Convert id_project to an integer
+
         int idProject = 0;
         try {
             idProject = Integer.parseInt(idProjectStr);
@@ -35,7 +35,6 @@ public class AddTaskServlet extends HttpServlet {
         TaskDAO taskDAO = new TaskDAO();
 
         try {
-            // Validate required fields
             if (description == null || description.trim().isEmpty() ||
                     dateDebut == null || dateDebut.trim().isEmpty() ||
                     dateFin == null || dateFin.trim().isEmpty() ||
@@ -46,12 +45,10 @@ public class AddTaskServlet extends HttpServlet {
                 return;
             }
 
-            // Add the task
             taskDAO.addTask(description, dateDebut, dateFin, idProject);
             System.out.println("Task successfully added. Redirecting...");
 
-            // Redirect to tasks page
-            response.sendRedirect(request.getContextPath() + "/tasks");
+            response.sendRedirect(request.getContextPath() + "/taches");
 
         } catch (SQLException e) {
             System.err.println("SQL Exception in AddTaskServlet: " + e.getMessage());

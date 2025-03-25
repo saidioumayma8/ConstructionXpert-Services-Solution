@@ -44,10 +44,10 @@ public class ModifiyTaskServlet extends HttpServlet {
         boolean updated = taskDAO.updateTache(tache);
 
         if (updated) {
-            response.sendRedirect("/Projects/projects.jsp"); // Redirect to the project list after updating
+            response.sendRedirect("taches/Taches.jsp"); // Redirect to the project list after updating
         } else {
             request.setAttribute("errorMessage", "Failed to update project.");
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/Projects/editProject.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("taches/editTask.jsp");
             dispatcher.forward(request, response);
         }
     }

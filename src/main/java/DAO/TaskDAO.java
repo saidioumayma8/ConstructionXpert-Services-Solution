@@ -4,6 +4,8 @@ import Models.Tache;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+
+import static Utils.DatabaseConnection.connection;
 import static Utils.DatabaseConnection.getConnection;
 
 public class TaskDAO {
@@ -60,19 +62,14 @@ public class TaskDAO {
     }
 
     // add new task
-    public boolean addTask(Tache task) throws SQLException {
-        String sql = "INSERT INTO tache (description, date_debut, date_fin, id_projet) VALUES (?, ?, ?, ?)";
-
-        try (Connection conn = getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            stmt.setString(1, task.getDescription());
-            stmt.setString(2, task.getDateDebut());
-            stmt.setString(3, task.getDateFin());
-            stmt.setInt(4, task.getProjectId());
-
-            int rowsInserted = stmt.executeUpdate();
-            return rowsInserted > 0;
+    public void addTask(String description, String dateDebut, String dateFin, int idProject) throws SQLException {
+        String query = "INSERT INTO tasks (description, date_debut, date_fin, id_project) VALUES (?, ?, ?, ?)";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, description);
+            preparedStatement.setDate(2, Date.valueOf(dateDebut)); // Convert to SQL Date
+            preparedStatement.setDate(3, Date.valueOf(dateFin));   // Convert to SQL Date
+            preparedStatement.setInt(4, idProject);
+            preparedStatement.executeUpdate();
         }
     }
 
