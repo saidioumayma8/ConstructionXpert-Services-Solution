@@ -9,7 +9,7 @@ import static Utils.DatabaseConnection.getConnection;
 
 public class ProjectDAO {
 
-    public Project getProjectById(int id) { // Accept id as an argument
+    public Project getProjectById(int id) {
         Project project = null;
         String query = "SELECT * FROM projet WHERE id = ?";
 
@@ -33,7 +33,8 @@ public class ProjectDAO {
         }
         return project;
     }
-    // Method to get all projects (for the project list page)
+
+    // Method to get all projects (project list page)
     public static List<Project> getAllProjects() {
         List<Project> projects = new ArrayList<>();
         String sql = "SELECT * FROM projet";
@@ -53,7 +54,7 @@ public class ProjectDAO {
                 projects.add(project);
             }
 
-            // Debugging: Print the retrieved projects
+
             System.out.println("Projects retrieved: " + projects.size());
             for (Project p : projects) {
                 System.out.println(p.getId() + " - " + p.getNom());
@@ -66,48 +67,44 @@ public class ProjectDAO {
         return projects;
     }
 
+    // add project to the database
+    public void addProject(String nom, String description, String dateDebut, String dateFin, double budget) throws SQLException {
+        Connection connection = getConnection();
 
-
-
-    // Method to add a project to the database
-        public void addProject(String nom, String description, String dateDebut, String dateFin, double budget) throws SQLException {
-            Connection connection = getConnection();
-
-            if (connection == null) {
-                System.err.println("Database connection is null, cannot proceed with the query.");
-                throw new SQLException("Database connection is not available.");
-            }
-
-            // SQL query to insert a new project
-            String sql = "INSERT INTO Projet (nom, description, date_debut, date_fin, budget) VALUES (?, ?, ?, ?, ?)";
-
-            try (PreparedStatement statement = connection.prepareStatement(sql)) {
-                // Set the parameters for the SQL query
-                statement.setString(1, nom);
-                statement.setString(2, description);
-                statement.setString(3, dateDebut);  // Assuming date format is "yyyy-MM-dd"
-                statement.setString(4, dateFin);    // Assuming date format is "yyyy-MM-dd"
-                statement.setDouble(5, budget);
-
-                // Execute the query
-                int rowsAffected = statement.executeUpdate();
-                if (rowsAffected > 0) {
-                    System.out.println("Project added successfully.");
-                } else {
-                    System.err.println("Failed to add project.");
-                }
-            } catch (SQLException e) {
-                // Log the exception with a detailed message
-                System.err.println("Error executing query: " + e.getMessage());
-                e.printStackTrace();
-                throw e;  // Rethrow the exception to handle it further up the stack if necessary
-            }
+        if (connection == null) {
+            System.err.println("Database connection is null, cannot proceed with the query.");
+            throw new SQLException("Database connection is not available.");
         }
 
+        // SQL query to insert a new project
+        String sql = "INSERT INTO Projet (nom, description, date_debut, date_fin, budget) VALUES (?, ?, ?, ?, ?)";
 
-    // Method to update a project
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            // Set the parameters for the SQL query
+            statement.setString(1, nom);
+            statement.setString(2, description);
+            statement.setString(3, dateDebut);  // Assuming date format is "yyyy-MM-dd"
+            statement.setString(4, dateFin);    // Assuming date format is "yyyy-MM-dd"
+            statement.setDouble(5, budget);
+
+            // Execute the query
+            int rowsAffected = statement.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Project added successfully.");
+            } else {
+                System.err.println("Failed to add project.");
+            }
+        } catch (SQLException e) {
+            // Log the exception with a detailed message
+            System.err.println("Error executing query: " + e.getMessage());
+            e.printStackTrace();
+            throw e;  // Rethrow the exception to handle it further up the stack if necessary
+        }
+    }
+
+    // update project
     public boolean updateProject(Project project) {
-        String sql = "UPDATE projet SET nom=?, description=?, dateDebut=?, dateFin=?, budget=? WHERE id=?";
+        String sql = "UPDATE projet SET nom=?, description=?, date_debut=?, date_fin=?, budget=? WHERE id=?";
 
         try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -127,8 +124,7 @@ public class ProjectDAO {
         return false;
     }
 
-
-    // Method to delete a project by its ID
+    // Method to delete project by its ID
     public boolean deleteProject(int id) {
         String query = "DELETE FROM projet WHERE id = ?";
 

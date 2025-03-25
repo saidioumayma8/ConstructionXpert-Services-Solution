@@ -11,7 +11,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet("/modifyProject")
+@WebServlet("/modifytask")
 public class ModifiyTaskServlet extends HttpServlet {
 
     // Handles GET requests (for displaying the edit page)

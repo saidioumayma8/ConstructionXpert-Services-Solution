@@ -44,7 +44,8 @@ public class AddProjectServlet extends HttpServlet {
             projectDAO.addProject(nom, description, dateDebut, dateFin, budget);
             System.out.println("Project successfully added. Redirecting...");
             request.setAttribute("message", "Project added successfully!");
-            request.getRequestDispatcher("/projects.jsp").forward(request, response);
+            response.sendRedirect(request.getContextPath() + "/projects");
+            //request.getRequestDispatcher("/Projects/projects.jsp").forward(request, response);
 
         } catch (SQLException e) {
             System.err.println("SQL Exception in AddProjectServlet: " + e.getMessage());

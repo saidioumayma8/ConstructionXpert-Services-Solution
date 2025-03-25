@@ -1,16 +1,14 @@
 package DAO;
 
-import Models.Project;
 import Models.Tache;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-
 import static Utils.DatabaseConnection.getConnection;
 
 public class TaskDAO {
 
-    // Method to get a task by its ID
+    // get task by its ID
     public static Tache getTacheById(int id) {
         Tache tache = null;
         String query = "SELECT * FROM tache WHERE id = ?";
@@ -35,7 +33,7 @@ public class TaskDAO {
         return tache;
     }
 
-    // Method to get all tasks
+    // get all tasks
     public static List<Tache> getAllTaches() {
         List<Tache> taches = new ArrayList<>();
         String sql = "SELECT * FROM tache";
@@ -61,7 +59,7 @@ public class TaskDAO {
         return taches;
     }
 
-    // Method to add a new task
+    // add new task
     public boolean addTask(Tache task) throws SQLException {
         String sql = "INSERT INTO tache (description, date_debut, date_fin, id_projet) VALUES (?, ?, ?, ?)";
 
@@ -78,11 +76,7 @@ public class TaskDAO {
         }
     }
 
-
-    // Method to update a task
-    //
-
-    // Method to delete a task by its ID
+    // delete task by its ID
     public boolean deleteTache(int id) {
         String query = "DELETE FROM tache WHERE id = ?";
 
@@ -98,7 +92,6 @@ public class TaskDAO {
     }
 
     //mofidie une tache
-
     public boolean updateTache(Tache tache) {
         String sql = "UPDATE tache SET description=?, date_debut=?, date_fin=?, id_projet=? WHERE id=?";
         try (Connection conn = getConnection();
@@ -117,4 +110,5 @@ public class TaskDAO {
         }
         return false;
     }
+
 }

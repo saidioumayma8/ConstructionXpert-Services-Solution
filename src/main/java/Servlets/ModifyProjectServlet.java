@@ -27,7 +27,7 @@ public class ModifyProjectServlet extends HttpServlet {
         }
 
         request.setAttribute("project", project);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/editProject.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/Projects/editProject.jsp");
         dispatcher.forward(request, response);
     }
 
