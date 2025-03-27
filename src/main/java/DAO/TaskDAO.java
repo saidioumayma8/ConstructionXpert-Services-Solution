@@ -1,21 +1,19 @@
 package DAO;
 
 import Models.Tache;
+import Utils.DatabaseConnection;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static Utils.DatabaseConnection.connection;
-import static Utils.DatabaseConnection.getConnection;
-
 public class TaskDAO {
 
-    // get task by its ID
+    // get task by id
     public static Tache getTacheById(int id) {
         Tache tache = null;
         String query = "SELECT * FROM tache WHERE id = ?";
 
-        try (Connection connection = getConnection();
+        try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -26,7 +24,7 @@ public class TaskDAO {
                         resultSet.getString("description"),
                         resultSet.getString("date_debut"),
                         resultSet.getString("date_fin"),
-                        resultSet.getInt("id_projet") // Assuming the foreign key column is named project_id
+                        resultSet.getInt("id_projet") // Make sure this column exists
                 );
             }
         } catch (SQLException e) {
@@ -36,48 +34,55 @@ public class TaskDAO {
     }
 
     // get all tasks
-    public static List<Tache> getAllTaches() {
-        List<Tache> taches = new ArrayList<>();
-        String sql = "SELECT * FROM tache";
+    public List<Tache> getAllTaches() throws SQLException {
+        List<Tache> taskList = new ArrayList<>();
+        String query = "SELECT * FROM tache";
 
-        try (Connection conn = getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
+        try (Connection connection = DatabaseConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query))
+        {
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String description = resultSet.getString("description");
+                String dateDebut = resultSet.getString("date_debut");
+                String dateFin = resultSet.getString("date_fin");
+                int projectId = resultSet.getInt("id_projet");
 
-            while (rs.next()) {
-                Tache tache = new Tache();
-                tache.setId(rs.getInt("id"));
-                tache.getDescription();
-                tache.getDateDebut();
-                tache.getDateFin();
-                tache.getProjectId();
-                taches.add(tache);
+                // DEBUG: Print out each retrieved task
+                System.out.println("Retrieved Task -> ID: " + id + ", Description: " + description + ", Start: " + dateDebut + ", End: " + dateFin + ", ProjectID: " + projectId);
+
+                taskList.add(new Tache(id, description, dateDebut, dateFin, projectId));
             }
-
-        } catch (SQLException e) {
+        }  catch (SQLException e) {
             e.printStackTrace();
         }
-
-        return taches;
+        return taskList;
     }
 
-    // add new task
+    // Add a new task
     public void addTask(String description, String dateDebut, String dateFin, int idProject) throws SQLException {
-        String query = "INSERT INTO tasks (description, date_debut, date_fin, id_project) VALUES (?, ?, ?, ?)";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+        System.out.println("Inserting Task: Description = " + description + ", Start Date = " + dateDebut + ", End Date = " + dateFin + ", ProjectID = " + idProject);
+
+        String query = "INSERT INTO tache (description, date_debut, date_fin, id_projet) VALUES (?, ?, ?, ?)";
+
+        try (Connection connection = DatabaseConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
             preparedStatement.setString(1, description);
-            preparedStatement.setDate(2, Date.valueOf(dateDebut)); // Convert to SQL Date
-            preparedStatement.setDate(3, Date.valueOf(dateFin));   // Convert to SQL Date
+            preparedStatement.setString(2, dateDebut);
+            preparedStatement.setString(3, dateFin);
             preparedStatement.setInt(4, idProject);
+
             preparedStatement.executeUpdate();
         }
     }
 
-    // delete task by its ID
+    // Delete task by its ID
     public boolean deleteTache(int id) {
         String query = "DELETE FROM tache WHERE id = ?";
 
-        try (Connection connection = getConnection();
+        try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, id);
             int result = preparedStatement.executeUpdate();
@@ -88,17 +93,18 @@ public class TaskDAO {
         }
     }
 
-    //mofidie une tache
+    // Update a task
     public boolean updateTache(Tache tache) {
         String sql = "UPDATE tache SET description=?, date_debut=?, date_fin=?, id_projet=? WHERE id=?";
-        try (Connection conn = getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setString(2, tache.getDescription());
-            stmt.setString(3, tache.getDateDebut());
-            stmt.setString(4, tache.getDateFin());
-            stmt.setDouble(5, tache.getProjectId());
-            stmt.setInt(6, tache.getId());
+        try (Connection connection = DatabaseConnection.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+            stmt.setString(1, tache.getDescription());
+            stmt.setString(2, tache.getDateDebut());
+            stmt.setString(3, tache.getDateFin());
+            stmt.setInt(4, tache.getProjectId());
+            stmt.setInt(5, tache.getId());
 
             int rowsUpdated = stmt.executeUpdate();
             return rowsUpdated > 0;
@@ -107,5 +113,4 @@ public class TaskDAO {
         }
         return false;
     }
-
 }

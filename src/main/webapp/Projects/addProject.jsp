@@ -34,7 +34,7 @@
         <form action="/Construction/addProject" method="post" class="bg-gray-800 p-6 shadow-lg rounded-lg mt-6">
             <div class="mb-4">
                 <label class="block text-gray-200 font-semibold">Project Name</label>
-                <input type="text" name="nom" class="w-full px-4 py-2 border rounded-lg bg-gray-700 text-gray-100" required>
+                <input type="text" id="name" name="nom" class="w-full px-4 py-2 border rounded-lg bg-gray-700 text-gray-100" required>
             </div>
 
             <div class="mb-4">
@@ -125,10 +125,8 @@
     }
 </style>
 
-<!-- JavaScript for Sidebar Toggle -->
 <script>
     window.onload = function () {
-        // Sidebar Toggle
         document.getElementById("toggleSidebar").addEventListener("click", function () {
             document.getElementById("sidebar").classList.toggle("-translate-x-64");
         });
@@ -138,6 +136,16 @@
             let startDate = new Date(document.querySelector('input[name="date_debut"]').value);
             let endDate = new Date(document.querySelector('input[name="date_fin"]').value);
             let errorMsg = document.getElementById("dateError");
+            let name = document.getElementById("name");
+
+            name.addEventListener('focusout', function(){
+                if ( name.value.length < 3){
+                    event.preventDefault();
+                    errorMsg.textContent = "Le nom nest pas correct.";
+                    errorMsg.classList.remove("hidden");
+                }
+            })
+
 
             if (startDate >= endDate) {
                 event.preventDefault();
@@ -148,6 +156,13 @@
             }
         });
     });
+        const  name =document.getElementById('nome');
+        name.addEventListener('focusout' ,function (){
+            if (name.value.lenght<3){
+                name.style.borderColor="red"
+            }
+        } )
+
 </script>
 
 </body>

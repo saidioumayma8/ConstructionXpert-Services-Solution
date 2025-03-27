@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 @WebServlet("/deleteTask")
@@ -24,10 +25,15 @@ public class DeletTaskServlet extends HttpServlet {
 
         if (isDeleted) {
 
-            List<Tache> taches = taskDAO.getAllTaches();
+            List<Tache> taches = null;
+            try {
+                taches = taskDAO.getAllTaches();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
 
             request.setAttribute("tasks", taches);
-            
+
             RequestDispatcher dispatcher = request.getRequestDispatcher("/taches");
             dispatcher.forward(request, response);
         } else {

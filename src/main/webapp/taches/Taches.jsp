@@ -61,7 +61,7 @@
                 <td class="p-3"><%= task.getProjectId() %></td>
                 <td>
                     <!-- Edit Button -->
-                    <a href="modifyTask?id=<%= task.getId %>" class="btn btn-primary">Edit</a>
+                    <a href="modifytask?id=<%= task.getId %>" class="btn btn-primary">Edit</a>
                     <!-- Delete Button with Confirmation -->
                     <a href="deleteTask?id=<%= task.getId() %>" class="btn btn-danger"
                        onclick="return confirm('Are you sure you want to delete this task?');">Delete</a>

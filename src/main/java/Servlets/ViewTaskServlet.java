@@ -1,8 +1,6 @@
 package Servlets;
 
-import DAO.ProjectDAO;
 import DAO.TaskDAO;
-import Models.Project;
 import Models.Tache;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -11,13 +9,19 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 @WebServlet("/taches")
 public class ViewTaskServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         TaskDAO taskDAO = new TaskDAO();
-        List<Tache> taches = taskDAO.getAllTaches();
+        List<Tache> taches = null;
+        try {
+            taches = taskDAO.getAllTaches();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         if (taches.isEmpty()) {
             System.out.println("No tasks found in the database.");
         }

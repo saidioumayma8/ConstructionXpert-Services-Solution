@@ -1,5 +1,7 @@
 package Models;
 
+import java.sql.Date;
+
 public class Tache {
     public boolean getId;
     private int id;
@@ -20,7 +22,22 @@ public class Tache {
 
     }
 
-    public Tache(int id, String description, String dateDebut, String dateFin, int projectId) {
+    public Tache(int id, String description, Date dateDebut, Date dateFin, int projectId) {
+        this.id = id;
+        this.description = description;
+        this.dateDebut = dateDebut.toString();
+        this.dateFin = dateFin.toString();
+        this.projectId = projectId;
+
+    }
+
+    public Tache(int id, String description, String dateDebut, String dateFin, int idProjet) {
+        this.id = id;
+        this.description = description;
+        this.dateDebut = dateDebut;
+        this.dateFin = dateFin;
+        this.projectId = idProjet;
+
     }
 
     // Getters

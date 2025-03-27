@@ -5,6 +5,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static Utils.DatabaseConnection.connection;
 import static Utils.DatabaseConnection.getConnection;
 
 public class ProjectDAO {
@@ -67,6 +68,21 @@ public class ProjectDAO {
         return projects;
     }
 
+
+    public Double budge(int budge) throws SQLException {
+        String sql = "select projet.budget from projet inner join tache on tache.id_projet= projet.id  where tache.id = 4;";
+
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            if (rs.next()) {
+                budge = rs.getInt("budget");
+            }
+        }
+        return (double) budge;
+    }
+
     // add project to the database
     public void addProject(String nom, String description, String dateDebut, String dateFin, double budget) throws SQLException {
         Connection connection = getConnection();
@@ -122,7 +138,9 @@ public class ProjectDAO {
             e.printStackTrace();
         }
         return false;
+
     }
+
 
     // Method to delete project by its ID
     public boolean deleteProject(int id) {
@@ -138,5 +156,7 @@ public class ProjectDAO {
             return false;
         }
     }
+
+
 
 }
